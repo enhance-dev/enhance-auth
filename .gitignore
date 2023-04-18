@@ -1,0 +1,8 @@
+.env
+.enhance
+.DS_Store
+**/static.json
+node_modules
+package-lock.json
+sam.json
+sam.yaml

@@ -1,0 +1,36 @@
+{
+  "name": "begin-app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "begin dev",
+    "lint": "eslint ./**/*.mjs --fix"
+  },
+  "devDependencies": {
+    "@enhance/cli": "^0.0.7",
+    "@enhance/types": "^0.5.0",
+    "eslint": "^8.30.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ]
+    },
+    "ignorePatterns": [],
+    "parserOptions": {
+      "sourceType": "module",
+      "ecmaVersion": 2022
+    }
+  },
+  "dependencies": {
+    "@begin/validator": "^1.0.0",
+    "@enhance/arc-plugin-enhance": "^5.0.1",
+    "@enhance/form-elements": "github:enhance-dev/form-elements",
+    "@ryanbethel/enhance-styles-cheatsheet": "github:ryanbethel/enhance-styles-cheatsheet"
+  }
+}
