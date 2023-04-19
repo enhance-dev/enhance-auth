@@ -30,35 +30,53 @@ export async function handler(event) {
 
 
 
-async function sendEmail(to, from, subject, message) {
-  const client = new SESClient({ region: "REGION" }); // replace "REGION" with the AWS region where your SES service is located
-
-  const params = {
-    Destination: {
-      ToAddresses: [to],
-    },
-    Message: {
-      Body: {
-        Text: {
-          Data: message,
-        },
-      },
-      Subject: {
-        Data: subject,
-      },
-    },
-    Source: from,
-  };
-
-  try {
-    const command = new SendEmailCommand(params);
-    const response = await client.send(command);
-    console.log("Email sent successfully:", response.MessageId);
-    return response;
-  } catch (err) {
-    console.log("Error sending email:", err);
-    throw err;
-  }
-}
 
 
+// // Set your API key and server prefix
+// const apiKey = 'YOUR_API_KEY';
+// const serverPrefix = apiKey.split('-').pop();
+// const baseUrl = `https://${serverPrefix}.api.mailchimp.com/3.0/`;
+
+// // Set your verified domain and template ID
+// const domain = 'YOUR_VERIFIED_DOMAIN';
+// const templateId = 'YOUR_TEMPLATE_ID';
+
+// // Set email parameters
+// const to = 'recipient@example.com';
+// const fromEmail = `no-reply@${domain}`;
+// const subject = 'Your transactional email subject';
+// const mergeVars = {
+//   FNAME: 'John',
+//   LNAME: 'Doe',
+// };
+
+// // Prepare the request headers and data
+// const headers = {
+//   Authorization: `Bearer ${apiKey}`,
+//   'Content-Type': 'application/json',
+// };
+
+// const data = {
+//   template_id: templateId,
+//   from_email: fromEmail,
+//   subject: subject,
+//   to: to,
+//   merge_vars: mergeVars,
+// };
+
+// // Send the transactional email
+// fetch(`${baseUrl}transactional/send`, {
+//   method: 'POST',
+//   headers: headers,
+//   body: JSON.stringify(data),
+// })
+//   .then((response) => {
+//     if (response.ok) {
+//       console.log('Email sent successfully!');
+//     } else {
+//       throw new Error(`Error sending email: ${response.status}`);
+//     }
+//   })
+//   .catch((error) => {
+//     console.error(error.message);
+//   });

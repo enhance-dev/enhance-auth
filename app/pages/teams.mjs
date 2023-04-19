@@ -8,15 +8,11 @@ export default function Html({ html, state }) {
   let teams = store.teams || []
 
   return html`
-<layout-page>
   <header>
-    <h1>Teams</h1>
+    <nav-menu></nav-menu>
   </header>
   <main>
-    <div>
-      <h1>Teams</h1>
-      <a href="/teams/new">Add Team</a>
-    </div>
+    <h1>Teams</h1>
     <div>
       <table>
         <thead>
@@ -33,9 +29,7 @@ export default function Html({ html, state }) {
             <td>${item?.name || ''}</td>
             <td>${item?.description || ''}</td>
             <td>${item?.members?.join(", ") || ''}</td>
-            <td>
-              <a href="/teams/${item.key}">Edit</a>
-            </td>
+            <td> <a href="/teams/${item.key}">Edit</a> </td>
             <td>
               <form action="/teams/${item.key}/delete" method="POST">
                 <button>Delete</button>
@@ -46,5 +40,5 @@ export default function Html({ html, state }) {
       </table>
     </div>
   </main>
-</layout-page> `
+`
 }

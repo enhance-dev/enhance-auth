@@ -7,6 +7,8 @@ prune true
 @events
 auth-link
   src jobs/auth-link
+send-sms
+  src jobs/send-sms
 
 @plugins
 enhance/arc-plugin-enhance
