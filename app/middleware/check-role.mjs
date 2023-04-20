@@ -5,7 +5,7 @@ export default function checkRole(role) {
 
     const response = enhanceResponse(req)
     const session = response.getSession()
-    const userRoles = session?.account?.account?.roles
+    const userRoles = session?.account?.roles
     if (!role || !userRoles?.includes(role)) {
       return response.setLocation('/').send() // TODO: Send not authorized message or redirect somewhere else
     }

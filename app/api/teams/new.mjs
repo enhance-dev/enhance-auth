@@ -13,7 +13,7 @@ export async function get(req) {
 
 export async function post(req) {
   const session = req.session
-  const owner_id = session.account.account.key // TODO: fix the double account
+  const owner_id = session.account.key // TODO: fix the double account
 
   const newTeam = { owner_id, ...req.body, member: req.body.members.filter(m => m) }
   let { problems, team } = await validate.create(newTeam)

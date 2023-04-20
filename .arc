@@ -13,4 +13,12 @@ send-sms
 @plugins
 enhance/arc-plugin-enhance
 ryanbethel/enhance-styles-cheatsheet
+#arc-plugin-oauth
 
+
+@oauth
+use-mock true
+
+mock-list auth/mock-allow.mjs
+
+allow-list auth/allow.mjs

@@ -55,8 +55,8 @@ export async function post(req) {
     if (!exists) {
       const newAccount = await upsertAccount(account)
       return {
-        session: { account: { account: newAccount } },
-        json: { account: { account: newAccount } },
+        session: { account: newAccount },
+        json: { account: newAccount },
         location: '/auth/welcome'
       }
     }

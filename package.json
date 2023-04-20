@@ -31,6 +31,7 @@
     "@begin/validator": "^1.0.0",
     "@enhance/arc-plugin-enhance": "^5.0.1",
     "@enhance/form-elements": "github:enhance-dev/form-elements",
-    "@ryanbethel/enhance-styles-cheatsheet": "github:ryanbethel/enhance-styles-cheatsheet"
+    "@ryanbethel/enhance-styles-cheatsheet": "github:ryanbethel/enhance-styles-cheatsheet",
+    "arc-plugin-oauth": "^0.2.0"
   }
 }
