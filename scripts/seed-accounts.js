@@ -8,13 +8,13 @@ async function main() {
     lastname: 'Doe',
     roles: ['admin', 'member'],
     provider: { github: { login: 'janedoe' }, google: { email: 'admin@example.com' } },
-    username: 'janedoe', password: 'hash123'
+    username: 'jdoe', password: 'hash123'
   })
   await db.set({
     table: 'accounts', key: 'u2', email: 'member@example.com', firstname: 'John', lastname: 'Smith',
     roles: ['member'],
-    provider: { github: { login: 'janedoe' }, google: { email: 'admin@example.com' } },
-    username: 'janedoe', password: 'hash123'
+    provider: { github: { login: 'johnsmith' }, google: { email: 'member@example.com' } },
+    username: 'jsmith', password: 'hash123'
   })
 
   await db.set({

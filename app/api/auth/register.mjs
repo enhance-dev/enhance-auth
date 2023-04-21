@@ -8,25 +8,26 @@ import { getAccounts, upsertAccount, validate } from '../../models/accounts.mjs'
  * @type {EnhanceApiFn}
  */
 export async function get(req) {
+  console.log(req)
   const session = req.session
-  const { verifiedEmail } = session
+  const { verifiedEmail, oauth } = session
 
-  if (!verifiedEmail) {
+  if (!verifiedEmail && !oauth) {
     return {
       location: '/auth/signup'
     }
   }
 
-  if (session?.problems) {
-    let { problems, account, ...session } = req.session
+  if (session?.problems?.length) {
+    let { problems, registration, ...session } = req.session
     return {
       session,
-      json: { problems, account, email: verifiedEmail }
+      json: { problems, registration, email: verifiedEmail, oauth }
     }
   }
 
   return {
-    json: { email: verifiedEmail }
+    json: { email: verifiedEmail, oauth }
   }
 }
 
@@ -35,23 +36,27 @@ export async function get(req) {
  */
 export async function post(req) {
   const session = req.session
-  const verifiedEmail = session?.verifiedEmail
+  const { verifiedEmail, oauth } = session
   let newReq = req
-  newReq.body.email = verifiedEmail
+  if (verifiedEmail) newReq.body.email = verifiedEmail;
+  if (oauth) newReq.body.provider = oauth;
   newReq.body.roles = { role1: 'member', role2: '', role3: '' }
   // Validate
   let { problems, account } = await validate.create(newReq)
-  if (problems) {
+  if (problems?.length) {
     return {
       session: { ...session, problems, registration: account },
-      json: { problems, registration: account, email: verifiedEmail },
       location: '/auth/register'
     }
   }
 
   try {
     const accounts = await getAccounts()
-    const exists = accounts.find(dbAccount => dbAccount.email === verifiedEmail)
+    const exists = verifiedEmail ?
+      accounts.find(dbAccount => dbAccount.email === verifiedEmail) :
+      oauth ?
+        accounts.find(dbAccount => dbAccount.provider.github.login === oauth.github.login) :
+        false
     if (!exists) {
       const newAccount = await upsertAccount(account)
       return {

@@ -1,18 +1,7 @@
-import { checkAuth } from '../../models/auth/auth-check.mjs'
+import { accountInfo, auth } from '../../middleware/auth-middleware.mjs'
+import send from '../../middleware/send.mjs'
 
 /**
  * @type {import('@enhance/types').EnhanceApiFn}
  */
-export async function get(req) {
-  const authenticated = checkAuth(req)
-  if (authenticated) {
-    return {
-      json: { account: authenticated }
-    }
-  }
-  else {
-    return {
-      location: '/'
-    }
-  }
-}
+export const get = [(req) => console.log(req), auth, accountInfo, send]

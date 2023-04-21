@@ -3,12 +3,12 @@
   * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
   */
 import { getAccounts, upsertAccount, validate } from '../models/accounts.mjs'
-import {checkAuth} from '../models/auth/auth-check.mjs'
+import { checkAuth } from '../auth/auth-check.mjs'
 
 /**
  * @type {EnhanceApiFn}
  */
-export async function get (req) {
+export async function get(req) {
   const admin = checkAuth(req, 'admin')
   if (!admin) {
     return {
@@ -16,7 +16,7 @@ export async function get (req) {
     }
   }
 
-  
+
   const accounts = await getAccounts()
   if (req.session.problems) {
     let { problems, account, ...session } = req.session
@@ -34,7 +34,7 @@ export async function get (req) {
 /**
  * @type {EnhanceApiFn}
  */
-export async function post (req) {
+export async function post(req) {
   const admin = checkAuth(req, 'admin')
   if (!admin) {
     return {
@@ -42,7 +42,7 @@ export async function post (req) {
     }
   }
 
-  
+
   const session = req.session
   // Validate
   let { problems, account } = await validate.create(req)
