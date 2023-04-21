@@ -8,7 +8,6 @@ import { getAccounts, upsertAccount, validate } from '../../models/accounts.mjs'
  * @type {EnhanceApiFn}
  */
 export async function get(req) {
-  console.log(req)
   const session = req.session
   const { verifiedEmail, oauth } = session
 

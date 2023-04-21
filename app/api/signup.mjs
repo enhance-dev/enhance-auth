@@ -6,26 +6,30 @@ import loginHref from '../auth/login-href.mjs'
  * @type {import('@enhance/types').EnhanceApiFn}
  */
 export async function post(req) {
-  let { magic, social } = req.queryParams
+  let { magic, social, traditional } = req.queryParams
   magic = magic === '' ? true : false
   social = social === '' ? true : false
+  traditional = traditional === '' ? true : false
 
   const session = req?.session
 
-  const sessionToken = crypto.randomBytes(32).toString('base64')
-  const verifyToken = crypto.randomBytes(32).toString('base64')
-  const { redirectAfterAuth = '/' } = session
+  if (magic) {
 
-  const email = req?.body?.email
+    const sessionToken = crypto.randomBytes(32).toString('base64')
+    const verifyToken = crypto.randomBytes(32).toString('base64')
+    const { redirectAfterAuth = '/' } = session
 
-  await arc.events.publish({
-    name: 'auth-link',
-    payload: { sessionToken, verifyToken, email, redirectAfterAuth, newRegistration: true },
-  })
+    const email = req?.body?.email
 
-  return {
-    session: {},
-    html: '<div>Check the console for link</div>'
+    await arc.events.publish({
+      name: 'auth-link',
+      payload: { sessionToken, verifyToken, email, redirectAfterAuth, newRegistration: true },
+    })
+
+    return {
+      session: {},
+      html: '<div>Check the console for link</div>'
+    }
   }
 }
 
