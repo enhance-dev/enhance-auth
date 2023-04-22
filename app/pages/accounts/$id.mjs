@@ -2,15 +2,15 @@
 /**
   * @type {import('@enhance/types').EnhanceElemFn}
   */
-export default function Html ({ html, state }) {
+export default function Html({ html, state }) {
   const { store } = state
   const account = store.account || {}
   const problems = store.problems || {}
 
-  return html`<enhance-page-container>
-  <enhance-form
-  action="/accounts/${account.key}"
-  method="POST">
+  return html`
+<enhance-page-container>
+  <nav-menu></nav-menu>
+  <enhance-form action="/accounts/${account.key}" method="POST">
   <div class="${problems.form ? 'block' : 'hidden'}">
     <p>Found some problems!</p>
     <ul>${problems.form}</ul>
@@ -24,10 +24,10 @@ export default function Html ({ html, state }) {
     Roles.role1
   </div>
   <select id="roles.role1" name="roles.role1" class="p-2 flex-grow w-full font-light text0 radius0 border-solid mb-2 border1 select-none" ><option value="" ${"" === account?.roles ? 'selected' : ''}></option><option value="admin" ${"admin" === account?.roles ? 'selected' : ''}>admin</option><option value="member" ${"member" === account?.roles ? 'selected' : ''}>member</option></select></label>
-<label for="roles.role2" class="radius0">
-  <div class="mb-3">
+  <label for="roles.role2" class="radius0">
+    <div class="mb-3">
     Roles.role2
-  </div>
+    </div>
   <select id="roles.role2" name="roles.role2" class="p-2 flex-grow w-full font-light text0 radius0 border-solid mb-2 border1 select-none" ><option value="" ${"" === account?.roles ? 'selected' : ''}></option><option value="admin" ${"admin" === account?.roles ? 'selected' : ''}>admin</option><option value="member" ${"member" === account?.roles ? 'selected' : ''}>member</option></select></label>
 <label for="roles.role3" class="radius0">
   <div class="mb-3">

@@ -4,4 +4,4 @@ import send from '../../middleware/send.mjs'
 /**
  * @type {import('@enhance/types').EnhanceApiFn}
  */
-export const get = [(req) => console.log(req), auth, accountInfo, send]
+export const get = [auth, accountInfo, send]

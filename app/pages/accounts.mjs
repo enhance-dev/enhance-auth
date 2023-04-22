@@ -2,13 +2,14 @@
 /**
   * @type {import('@enhance/types').EnhanceElemFn}
   */
-export default function Html ({ html, state }) {
+export default function Html({ html, state }) {
   const { store } = state
   let accounts = store.accounts || []
   const account = store.account || {}
   const problems = store.problems || {}
 
   return html`<enhance-page-container>
+    <nav-menu></nav-menu>
   <main>
     <h1 class="mb1 font-semibold text3">Accounts page</h1>
     ${accounts.map(item => `<article class="mb2">

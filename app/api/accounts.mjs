@@ -3,19 +3,15 @@
   * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
   */
 import { getAccounts, upsertAccount, validate } from '../models/accounts.mjs'
-import { checkAuth } from '../auth/auth-check.mjs'
+import { checkRole, accountInfo } from '../middleware/auth-middleware.mjs'
+import send from '../middleware/send.mjs'
 
 /**
  * @type {EnhanceApiFn}
  */
-export async function get(req) {
-  const admin = checkAuth(req, 'admin')
-  if (!admin) {
-    return {
-      location: '/'
-    }
-  }
+export const get = [checkRole('admin'), accountInfo, list, send]
 
+export async function list(req) {
 
   const accounts = await getAccounts()
   if (req.session.problems) {

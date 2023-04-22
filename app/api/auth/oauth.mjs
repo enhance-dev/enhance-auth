@@ -26,7 +26,7 @@ export async function get(req) {
       const accounts = await getAccounts()
       const appUser = accounts.find(a => a.provider?.github?.login === oauthAccount?.oauth?.github?.login)
       if (appUser && !newRegistration) {
-        session.account = appUser
+        session.authorized = appUser
         return {
           session,
           location: redirect
@@ -34,7 +34,6 @@ export async function get(req) {
       } else if (!newRegistration) {
         throw Error('user not found')
       } else {
-        console.log('here')
         return {
           session: { ...session, redirectAfterAuth: redirect },
           location: '/auth/register'

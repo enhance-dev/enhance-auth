@@ -2,18 +2,20 @@ import crypto from 'crypto'
 import arc from '@architect/functions'
 import loginHref from '../auth/login-href.mjs'
 
-/**
- * @type {import('@enhance/types').EnhanceApiFn}
- */
+export async function get(req) {
+  const { redirectAfterAuth = '/' } = req.session
+  const href = loginHref({ redirectAfterAuth, newRegistration: true })
+  return {
+    json: { githubOauthHref: href },
+  }
+}
+
 export async function post(req) {
-  let { magic, social, traditional } = req.queryParams
-  magic = magic === '' ? true : false
-  social = social === '' ? true : false
-  traditional = traditional === '' ? true : false
+  const { registrationType } = req.body
 
   const session = req?.session
 
-  if (magic) {
+  if (registrationType === 'magicLink') {
 
     const sessionToken = crypto.randomBytes(32).toString('base64')
     const verifyToken = crypto.randomBytes(32).toString('base64')
@@ -30,13 +32,11 @@ export async function post(req) {
       session: {},
       html: '<div>Check the console for link</div>'
     }
+  } else if (registrationType === 'traditional') {
+    return {
+      session: { traditional: true },
+      location: '/auth/register'
+    }
   }
 }
 
-export async function get(req) {
-  const { redirectAfterAuth = '/' } = req.session
-  const href = loginHref({ redirectAfterAuth, newRegistration: true })
-  return {
-    json: { githubOauthHref: href },
-  }
-}
