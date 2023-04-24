@@ -15,14 +15,14 @@ export default function login({ html, state }) {
       <p>Found some problems!</p>
       <ul>${problems.form}</ul>
     </div>
-    <div class="flex flex-col gap-1 m-auto" >
-      <a class="p-2 mb-3 flex-grow w-full font-light text0 radius0 border-solid mb-2 border1" role=button href="${githubOauthHref}">Login with GitHub</a>
+    <div class="flex flex-col gap-1 m-auto m2"> 
+      <enhance-link href=${githubOauthHref}>Login with GitHub</enhance-link>
     </div>
     <enhance-form action="/login" method="post">
-      <p>Login with your Email Only</p>
+      <p>Login with Email</p>
       <enhance-text-input label="Email" id="email" name="email" type="email"></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Login with Email</span></enhance-submit-button>
-      <p>Or Login with Username and Password</p>
+      <p>Login with Username and Password</p>
       <enhance-text-input label="Username" id="username" name="username" type="text"></enhance-text-input>
       <enhance-text-input label="Password" id="password" name="password" type="password"></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Login with Username/Password</span></enhance-submit-button>

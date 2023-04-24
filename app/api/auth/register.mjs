@@ -10,7 +10,6 @@ import { getAccounts, upsertAccount, validate } from '../../models/accounts.mjs'
 export async function get(req) {
 
   const session = req.session
-  console.log(session)
   const { verifiedEmail, oauth, traditional } = session
 
   if (!verifiedEmail && !oauth && !traditional) {
@@ -37,7 +36,6 @@ export async function get(req) {
  */
 export async function post(req) {
   const session = req.session
-  console.log(session)
   const { verifiedEmail, oauth, traditional } = session
   if (!verifiedEmail && !oauth && !traditional) {
     return {

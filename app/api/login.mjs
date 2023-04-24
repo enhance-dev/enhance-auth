@@ -12,11 +12,8 @@ export async function get(req) {
   const { problems, ...newSession } = req.session
   const { redirectAfterAuth = '/' } = req.session
   const href = loginHref({ redirectAfterAuth })
-  console.log('session in get', req.session)
 
   if (problems) {
-    console.log('newSession', newSession)
-    console.log('problems in get', problems)
     return {
       session: newSession,
       json: { problems }
@@ -31,15 +28,15 @@ export async function post(req) {
   const session = req?.session
   const traditional = !!(req.body.password || req.body.username)
   const magic = !!(!traditional && req.body.email)
+  const { redirectAfterAuth = '/' } = session
 
   if (magic) {
 
     const sessionToken = crypto.randomBytes(32).toString('base64')
     const verifyToken = crypto.randomBytes(32).toString('base64')
-    const { redirectAfterAuth = '/' } = session
 
     // TODO: Sanitize this
-    const email = req?.body?.email
+    const email = req.body.email
 
     await arc.events.publish({
       name: 'auth-link',
@@ -57,9 +54,15 @@ export async function post(req) {
     const match = account ? bcrypt.compareSync(password, account?.password) : false
     if (match) {
       const { password: hash, ...sanitizedAccount } = account
+      if (account.authConfig?.mfa?.enabled) {
+        return {
+          session: { redirectAfterAuth, checkMultiFactor: sanitizedAccount },
+          location: '/auth/otp'
+        }
+      }
       return {
         session: { authorized: sanitizedAccount },
-        location: '/auth/welcome'
+        location: redirectAfterAuth ? redirectAfterAuth : '/auth/welcome'
       }
     } else {
       return {
@@ -75,4 +78,3 @@ export async function post(req) {
   }
 
 }
-

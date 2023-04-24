@@ -26,7 +26,14 @@ export async function get(req) {
       const accounts = await getAccounts()
       const appUser = accounts.find(a => a.provider?.github?.login === oauthAccount?.oauth?.github?.login)
       if (appUser && !newRegistration) {
-        session.authorized = appUser
+        const { password: hash, ...sanitizedAccount } = appUser
+        if (appUser.authConfig?.mfa?.enabled) {
+          return {
+            session: { redirectAfterAuth: redirect, checkMultiFactor: sanitizedAccount },
+            location: '/auth/otp'
+          }
+        }
+        session.authorized = sanitizedAccount
         return {
           session,
           location: redirect

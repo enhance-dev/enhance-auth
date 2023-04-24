@@ -39,16 +39,15 @@ export async function get(req) {
     }
 
     if (account) {
-      // Verified Account
+      const { password: hash, ...sanitizedAccount } = account
       return {
-        session: { account },
+        session: { authorized: { ...sanitizedAccount } },
         location: sessionInfo?.redirectAfterAuth
       }
     }
   }
   else if (sessionToken && linkUsed) {
     return {
-      // Link already used
       location: '/login'
     }
   }
