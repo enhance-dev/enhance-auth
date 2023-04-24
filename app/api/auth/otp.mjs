@@ -31,7 +31,7 @@ export async function post(req) {
     });
 
     const verification = await client.verify.v2.services(service.sid).verifications.create({
-      to: process.env.TWILIO_TEST_PHONE,
+      to: process.env.SMS_SEND_PHONE,
       channel: 'sms',
     });
 
@@ -46,7 +46,7 @@ export async function post(req) {
     const { serviceSid } = otp
     const verificationCheck = await client.verify.v2
       .services(serviceSid)
-      .verificationChecks.create({ to: process.env.TWILIO_TEST_PHONE, code: otpCode })
+      .verificationChecks.create({ to: process.env.SMS_SEND_PHONE, code: otpCode })
     const status = verificationCheck.status
     if (status === 'approved') {
       let { checkMultiFactor, ...newSession } = req.session

@@ -14,7 +14,7 @@ export async function get(req) {
 
   if (!verifiedEmail && !oauth && !traditional) {
     return {
-      location: '/auth/signup'
+      location: '/signup'
     }
   }
 
@@ -37,9 +37,10 @@ export async function get(req) {
 export async function post(req) {
   const session = req.session
   const { verifiedEmail, oauth, traditional } = session
+  console.log("register route session", session)
   if (!verifiedEmail && !oauth && !traditional) {
     return {
-      location: '/auth/signup'
+      location: '/signup'
     }
   }
   let newReq = req
@@ -58,10 +59,12 @@ export async function post(req) {
 
   try {
     const accounts = await getAccounts()
-    let exists
-    if (verifiedEmail) accounts.find(dbAccount => dbAccount.email === verifiedEmail);
-    if (oauth) accounts.find(dbAccount => dbAccount.provider.github.login === oauth.github.login);
-    if (traditional) accounts.find(dbAccount => dbAccount.username === account.username);
+
+    let exists = false
+    if (verifiedEmail) exists = accounts.find(dbAccount => dbAccount.email === verifiedEmail);
+    if (oauth) exists = accounts.find(dbAccount => dbAccount.provider.github.login === oauth.github.login);
+    if (traditional) exists = accounts.find(dbAccount => dbAccount.username === account.username);
+
     if (!exists) {
       // bcrypt encrypt password 
       const password = bcrypt.hashSync(account.password, 10)

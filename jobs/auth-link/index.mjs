@@ -12,13 +12,13 @@ export async function handler(event) {
   // Local Development Testing Setup
   if (process.env.ARC_ENV === 'testing') {
     console.log('Login Link: ', `http://localhost:3333/auth/verify?token=${encodeURIComponent(verifyToken)}`)
-    toEmail = process.env.TRANSACTION_EMAIL
+    toEmail = process.env.TRANSACTION_SEND_EMAIL
   }
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY)
   const msg = {
     to: toEmail,
-    from: `${process.env.TRANSACTION_EMAIL}`,
+    from: `${process.env.TRANSACTION_SEND_EMAIL}`,
     subject: 'enhance-auth-magic-link',
     text: `http://localhost:3333/auth/verify?token=${encodeURIComponent(verifyToken)}`
     //html: '<strong>This is HTML</strong>',
