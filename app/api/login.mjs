@@ -9,14 +9,14 @@ import { getAccounts } from '../models/accounts.mjs'
  */
 
 export async function get(req) {
-  const { problems, ...newSession } = req.session
   const { redirectAfterAuth = '/' } = req.session
   const href = loginHref({ redirectAfterAuth })
 
+  const { problems, login, ...newSession } = req.session
   if (problems) {
     return {
       session: newSession,
-      json: { problems }
+      json: { problems, login }
     }
   }
   return {
@@ -26,7 +26,7 @@ export async function get(req) {
 
 export async function post(req) {
   const session = req?.session
-  const traditional = !!(req.body.password || req.body.username)
+  const traditional = !!(req.body.password || req.body.displayName)
   const magic = !!(!traditional && req.body.email)
   const { redirectAfterAuth = '/' } = session
 
@@ -48,11 +48,11 @@ export async function post(req) {
       html: '<div>Check the console for link</div>'
     }
   } else if (traditional) {
-    const { password, username } = req.body
+    const { password, displayName } = req.body
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.username === username)
+    const account = accounts.find(a => a.displayName === displayName)
     const match = account ? bcrypt.compareSync(password, account?.password) : false
-    if (match) {
+    if (match && account.emailVerified) {
       const { password: hash, ...sanitizedAccount } = account
       if (account.authConfig?.mfa?.enabled) {
         return {
@@ -64,9 +64,34 @@ export async function post(req) {
         session: { authorized: sanitizedAccount },
         location: redirectAfterAuth ? redirectAfterAuth : '/auth/welcome'
       }
+    } else if (match && !account?.emailVerified) {
+      try {
+        const { password: removePassword, ...newAccount } = await upsertAccount({ ...register, emailVerified: false })
+
+
+        const sessionToken = crypto.randomBytes(32).toString('base64')
+        const verifyToken = crypto.randomBytes(32).toString('base64')
+        const { redirectAfterAuth = '/' } = session
+
+        await arc.events.publish({
+          name: 'verify-email',
+          payload: { sessionToken, verifyToken, email: register.email, redirectAfterAuth, newRegistration: true },
+        })
+
+        return {
+          session: { unverified: newAccount },
+          location: '/verify/email'
+        }
+      } catch (err) {
+        console.log(err)
+        return {
+          session: { error: err.message },
+          location: '/login'
+        }
+      }
     } else {
       return {
-        session: { ...session, problems: { form: 'incorrect username or password' } },
+        session: { ...session, problems: { form: 'incorrect display name or password' }, login: displayName },
         location: '/login'
       }
     }

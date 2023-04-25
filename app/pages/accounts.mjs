@@ -14,9 +14,12 @@ export default function Html({ html, state }) {
     <h1 class="mb1 font-semibold text3">Accounts page</h1>
     ${accounts.map(item => `<article class="mb2">
 <div class="mb0">
+  <p class="pb-2"><strong class="capitalize">Display Name: </strong>${item?.displayName || ''}</p>
   <p class="pb-2"><strong class="capitalize">firstname: </strong>${item?.firstname || ''}</p>
   <p class="pb-2"><strong class="capitalize">lastname: </strong>${item?.lastname || ''}</p>
   <p class="pb-2"><strong class="capitalize">email: </strong>${item?.email || ''}</p>
+  <p class="pb-2"><strong class="capitalize">email Verified: </strong>${item?.emailVerified ? 'Yes' : 'No'}</p>
+  <p class="pb-2"><strong class="capitalize">phone: </strong>${item?.phone || ''}</p>
   <p class="pb-2"><strong class="capitalize">role1: </strong>${item?.roles?.role1 || ''}</p>
   <p class="pb-2"><strong class="capitalize">role2: </strong>${item?.roles?.role2 || ''}</p>
   <p class="pb-2"><strong class="capitalize">role3: </strong>${item?.roles?.role3 || ''}</p>
