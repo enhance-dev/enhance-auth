@@ -15,19 +15,19 @@ export async function handler(event) {
     toEmail = process.env.TRANSACTION_SEND_EMAIL
   }
 
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-  const msg = {
-    to: toEmail,
-    from: `${process.env.TRANSACTION_SEND_EMAIL}`,
-    subject: 'enhance-auth-magic-link',
-    text: `http://localhost:3333/verify/email?token=${encodeURIComponent(verifyToken)}`
-    //html: '<strong>This is HTML</strong>',
-  }
-  try {
-    await sgMail.send(msg)
-  } catch (e) {
-    console.error(e)
-  }
+  // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  // const msg = {
+  //   to: toEmail,
+  //   from: `${process.env.TRANSACTION_SEND_EMAIL}`,
+  //   subject: 'enhance-auth-magic-link',
+  //   text: `http://localhost:3333/verify/email?token=${encodeURIComponent(verifyToken)}`
+  //   //html: '<strong>This is HTML</strong>',
+  // }
+  // try {
+  //   await sgMail.send(msg)
+  // } catch (e) {
+  //   console.error(e)
+  // }
 }
 
 
