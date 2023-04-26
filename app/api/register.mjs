@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import arc from '@architect/functions'
 import loginHref from '../auth/login-href.mjs'
 import { validate } from '../models/register.mjs'
-import { getAccounts, upsertAccount } from '../models/accounts.mjs'
+import { upsertAccount } from '../models/accounts.mjs'
 
 export async function get(req) {
   const { redirectAfterAuth = '/' } = req.session
@@ -29,26 +29,8 @@ export async function post(req) {
 
   let { problems, register } = await validate.create(req)
 
-  const accounts = await getAccounts()
-
-  const matchEmail = accounts.find(account => account.email === register.email)
-  if (matchEmail) {
-    if (!problems) {
-      problems = { email: { errors: '<p>Email already registered</p>' } }
-    } else {
-      problems.email = { errors: `<p>Email already registered</>` }
-    }
-  }
-  const matchDisplayName = accounts.find(account => account.displayName === register.displayName)
-  if (matchDisplayName) {
-    if (!problems) {
-      problems = { displayName: { errors: `<p>Display name already registered</p>` } }
-    } else {
-      problems.displayName = { errors: `<p>Display name already registered</p>` }
-    }
-  }
-
   if (problems) {
+    // eslint-disable-next-line no-unused-vars
     let { password, confirmPassword, ...sanitizedRegister } = register
     return {
       session: { ...newSession, problems, register: sanitizedRegister },
@@ -56,12 +38,11 @@ export async function post(req) {
     }
   }
 
-
   try {
     delete register.confirmPassword
     register.password = bcrypt.hashSync(register.password, 10)
+    // eslint-disable-next-line no-unused-vars
     const { password: removePassword, ...newAccount } = await upsertAccount({ ...register, emailVerified: false })
-
 
     const sessionToken = crypto.randomBytes(32).toString('base64')
     const verifyToken = crypto.randomBytes(32).toString('base64')
