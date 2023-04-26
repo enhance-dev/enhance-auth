@@ -8,11 +8,7 @@ export async function get(req) {
   const token = req.query?.token
   const { authorized, unverified, ...newSession } = req.session
 
-  if (authorized) {
-    return {
-      location: '/'
-    }
-  } else if (token) {
+  if (token) {
     const verifySession = await db.get({ table: 'session', key: token })
     const { sessionToken, linkUsed = false } = verifySession
     if (sessionToken && !linkUsed) {
@@ -29,6 +25,10 @@ export async function get(req) {
       } else {
         return // waiting to verify message
       }
+    }
+  } else if (authorized) {
+    return {
+      location: '/'
     }
   } else if (unverified) {
     let accounts = await getAccounts()

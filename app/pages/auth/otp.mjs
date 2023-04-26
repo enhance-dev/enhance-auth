@@ -1,6 +1,5 @@
 export default function login({ html, state }) {
   const { otpSent } = state.store
-  console.log("otpSent", otpSent)
   return html`<style>
     :host {
         min-width: 20rem;

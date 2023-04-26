@@ -41,7 +41,6 @@ export async function get(req) {
       } else if (!newRegistration) {
         throw Error('user not found')
       } else {
-        console.log("oauth route session", session)
         return {
           session: { ...session, redirectAfterAuth: redirect, },
           location: '/auth/register'

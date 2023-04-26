@@ -1,7 +1,6 @@
 export default function signup({ html, state }) {
   // const { githubOauthHref } = state.store
   const { problems } = state.store
-  console.log("problems", problems)
 
   return html`
 <enhance-page-container>

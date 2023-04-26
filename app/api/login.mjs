@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import arc from '@architect/functions'
 import loginHref from '../auth/login-href.mjs'
 import bcrypt from 'bcryptjs'
-import { getAccounts } from '../models/accounts.mjs'
+import { getAccounts, upsertAccount } from '../models/accounts.mjs'
 
 /**
  * @type {import('@enhance/types').EnhanceApiFn}

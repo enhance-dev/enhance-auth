@@ -9,6 +9,8 @@ auth-link
   src jobs/auth-link
 verify-email
   src jobs/verify-email
+reset-password-link
+  src jobs/reset-password-link
 
 @plugins
 enhance/arc-plugin-enhance

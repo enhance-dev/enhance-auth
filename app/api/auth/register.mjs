@@ -37,7 +37,6 @@ export async function get(req) {
 export async function post(req) {
   const session = req.session
   const { verifiedEmail, oauth, traditional } = session
-  console.log("register route session", session)
   if (!verifiedEmail && !oauth && !traditional) {
     return {
       location: '/signup'

@@ -14,6 +14,7 @@ export default function login({ html, state }) {
       <enhance-text-input label="Display Name" id="displayName" name="displayName" type="text" error="${problems?.displayName?.errors}" ></enhance-text-input>
       <enhance-text-input label="Password" id="password" name="password" type="password" error="${problems?.password?.errors}"></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Login</span></enhance-submit-button>
+      <enhance-link href="/reset">Forgot Password?</enhance-link>
     </enhance-form>
   </main>
 </enhance-page-container>
