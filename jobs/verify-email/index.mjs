@@ -3,9 +3,8 @@ import sgMail from '@sendgrid/mail'
 
 export async function handler(event) {
   const payload = JSON.parse(event?.Records?.[0]?.Sns?.Message)
-  const { sessionToken, verifyToken, email, redirectAfterAuth = '/', newRegistration = false } = payload
-  await db.set({ table: 'session', key: sessionToken, sessionToken, verifyToken, email, redirectAfterAuth, newRegistration })
-  await db.set({ table: 'session', key: verifyToken, sessionToken })
+  const { verifyToken, email, redirectAfterAuth = '/', newRegistration = false } = payload
+  await db.set({ table: 'session', key: verifyToken, verifyToken, email, redirectAfterAuth, newRegistration })
 
   let toEmail = email
 

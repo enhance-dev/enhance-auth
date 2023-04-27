@@ -3,15 +3,14 @@ import sgMail from '@sendgrid/mail'
 
 export async function handler(event) {
   const payload = JSON.parse(event?.Records?.[0]?.Sns?.Message)
-  const { sessionToken, verifyToken, email, redirectAfterAuth = '/', newRegistration = false } = payload
-  await db.set({ table: 'session', key: sessionToken, sessionToken, verifyToken, email, redirectAfterAuth, newRegistration })
-  await db.set({ table: 'session', key: verifyToken, sessionToken })
+  const { verifyToken, email, redirectAfterAuth = '/', newRegistration = false } = payload
+  await db.set({ table: 'session', key: verifyToken, verifyToken, email, redirectAfterAuth, newRegistration })
 
   let toEmail = email
 
   // Local Development Testing Setup
   if (process.env.ARC_ENV === 'testing') {
-    console.log('Reset Password: ', `http://localhost:3333/reset?token=${encodeURIComponent(verifyToken)}`)
+    console.log('Reset Password: ', `http://localhost:3333/forgot?token=${encodeURIComponent(verifyToken)}`)
     toEmail = process.env.TRANSACTION_SEND_EMAIL
   }
 
@@ -20,7 +19,7 @@ export async function handler(event) {
   //   to: toEmail,
   //   from: `${process.env.TRANSACTION_SEND_EMAIL}`,
   //   subject: 'enhance-auth-magic-link',
-  //   text: `http://localhost:3333/auth/verify?token=${encodeURIComponent(verifyToken)}`
+  //   text: `http://localhost:3333/forgot?token=${encodeURIComponent(verifyToken)}`
   //   //html: '<strong>This is HTML</strong>',
   // }
   // try {

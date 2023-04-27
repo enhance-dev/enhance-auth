@@ -41,13 +41,12 @@ export async function post(req) {
     const accounts = await getAccounts()
     const account = accounts.find(a => a.email === email)
     if (account) {
-      const sessionToken = crypto.randomBytes(32).toString('base64')
       const verifyToken = crypto.randomBytes(32).toString('base64')
       const { redirectAfterAuth = '/' } = session
 
       await arc.events.publish({
         name: 'reset-password-link',
-        payload: { sessionToken, verifyToken, email, redirectAfterAuth },
+        payload: { verifyToken, email, redirectAfterAuth },
       })
 
       return {
@@ -66,13 +65,11 @@ export async function post(req) {
       const account = accounts.find(a => a.email === resetEmail)
       if (account) {
         const verifySession = await db.get({ table: 'session', key: token })
-        const { sessionToken, linkUsed = false } = verifySession
-        let sessionInfo
+        const { linkUsed = false } = verifySession
         // Valid Link Unused
-        if (sessionToken && !linkUsed) {
-          await db.set({ table: 'session', key: token, linkUsed: true })
-          sessionInfo = await db.get({ table: 'session', key: sessionToken })
-          if (sessionInfo.email === resetEmail) {
+        if (verifySession && !linkUsed) {
+          await db.set({ ...verifySession, table: 'session', key: token, linkUsed: true })
+          if (verifySession.email === resetEmail) {
             const hash = bcrypt.hashSync(password, 10)
             await upsertAccount({ ...account, password: hash })
             return {

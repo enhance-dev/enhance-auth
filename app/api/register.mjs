@@ -44,13 +44,12 @@ export async function post(req) {
     // eslint-disable-next-line no-unused-vars
     const { password: removePassword, ...newAccount } = await upsertAccount({ ...register, emailVerified: false })
 
-    const sessionToken = crypto.randomBytes(32).toString('base64')
     const verifyToken = crypto.randomBytes(32).toString('base64')
     const { redirectAfterAuth = '/' } = session
 
     await arc.events.publish({
       name: 'verify-email',
-      payload: { sessionToken, verifyToken, email: register.email, redirectAfterAuth, newRegistration: true },
+      payload: { verifyToken, email: register.email, redirectAfterAuth, newRegistration: true }, 
     })
 
     return {

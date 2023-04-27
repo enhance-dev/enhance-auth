@@ -10,16 +10,15 @@ export async function get(req) {
 
   if (token) {
     const verifySession = await db.get({ table: 'session', key: token })
-    const { sessionToken, linkUsed = false } = verifySession
-    if (sessionToken && !linkUsed) {
-      await db.set({ table: 'session', key: token, linkUsed: true })
-      let sessionInfo = await db.get({ table: 'session', key: sessionToken })
+    const { linkUsed = false } = verifySession
+    if (verifySession && !linkUsed) {
+      await db.set({ ...verifySession, table: 'session', key: token, linkUsed: true })
       let accounts = await getAccounts()
-      let account = accounts.find(acct => sessionInfo.email === acct.email)
+      let account = accounts.find(acct => verifySession.email === acct.email)
       if (account) {
         account = await upsertAccount({ ...account, emailVerified: true })
         return {
-          session: { redirectAfterAuth: sessionInfo?.redirectAfterAuth,/* emailVerified: true*/ },
+          session: { redirectAfterAuth: verifySession?.redirectAfterAuth,/* emailVerified: true*/ },
           location: '/verify/success'
         }
       } else {
