@@ -20,7 +20,7 @@ export async function get(req) {
         account = await upsertAccount({ ...account, emailVerified: true })
         return {
           session: { redirectAfterAuth: sessionInfo?.redirectAfterAuth,/* emailVerified: true*/ },
-          location: '/login'
+          location: '/verify/success'
         }
       } else {
         return // waiting to verify message

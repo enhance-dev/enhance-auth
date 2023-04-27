@@ -52,7 +52,7 @@ export async function post(req) {
 
       return {
         session: {},
-        html: '<div>Check email or console for reset link</div>'
+        location: '/forgot/link-sent'
       }
     }
 
@@ -77,7 +77,7 @@ export async function post(req) {
             await upsertAccount({ ...account, password: hash })
             return {
               session: {},
-              html: '<div>Password has been reset. <a style="color:blue" href=/login>Click here to Login</a></div>'
+              location: '/forgot/success'
             }
           }
         }
