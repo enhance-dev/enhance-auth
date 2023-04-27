@@ -7,10 +7,9 @@ async function main() {
     /*password is 'a'*/
     password: '$2a$10$bkNIj7oU2Ol75a0dmpSMweu9UrwT/OPhS7wxTDhaHMnsPlMp7eDw.',
     email: 'admin@example.com',
+    verified: { email: true, phone: true },
     emailVerified: true,
     phone: '123-123-1234',
-    firstname: 'Jane',
-    lastname: 'Doe',
     roles: ['admin', 'member'],
     provider: { github: { login: 'janedoe' }, google: { email: 'admin@example.com' } },
   })
@@ -21,9 +20,8 @@ async function main() {
     /*password is 'secret'*/
     password: '$2a$10$fVqCPIoGWaxEZ.tX73tICOenx9Zh9qvDgrq/mNgbZuxxemFaNTi/G',
     email: 'member@example.com',
-    firstname: 'John',
-    lastname: 'Smith',
     emailVerified: true,
+    verified: { email: true, phone: true },
     phone: '123-555-1234',
     roles: ['member'],
     authConfig: { mfa: { enabled: true, type: 'sms', phone: process.env.SMS_SEND_PHONE } },
