@@ -2,7 +2,7 @@ import db from '@begin/data'
 import sgMail from '@sendgrid/mail'
 const isLocal = process.env.ARC_ENV === 'testing'
 const requiredEnvs = process.env.TRANSACTION_SEND_EMAIL && process.env.SENDGRID_API_KEY
-const domain = process.env.DOMAIN_NAME || 'https://localhost:3333'
+const domain = process.env.DOMAIN_NAME || 'http://localhost:3333'
 
 export async function handler(event) {
   const payload = JSON.parse(event?.Records?.[0]?.Sns?.Message)

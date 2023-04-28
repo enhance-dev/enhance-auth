@@ -1,5 +1,6 @@
 import db from '@begin/data'
-import { getAccounts, getAccount, upsertAccount } from '../../models/accounts.mjs'
+import arc from '@architect/functions'
+import { getAccounts, upsertAccount } from '../../models/accounts.mjs'
 
 /**
  * @type {import('@enhance/types').EnhanceApiFn}
@@ -10,42 +11,59 @@ export async function get(req) {
 
   if (token) {
     const verifySession = await db.get({ table: 'session', key: token })
-    const { linkUsed = false } = verifySession
-    if (verifySession && !linkUsed) {
-      await db.set({ ...verifySession, table: 'session', key: token, linkUsed: true })
-      let accounts = await getAccounts()
-      let account = accounts.find(acct => verifySession.email === acct.email)
-      if (account) {
-        account = await upsertAccount({ ...account, emailVerified: true })
-        return {
-          session: { redirectAfterAuth: verifySession?.redirectAfterAuth,/* emailVerified: true*/ },
-          location: '/verify/success'
-        }
-      } else {
-        return // waiting to verify message
-      }
-    }
-  } else if (authorized) {
+    const { linkUsed } = verifySession
+
+    if (!verifySession || linkUsed) return  { location: '/verify/used' };
+ 
+    await db.set({ ...verifySession, table: 'session', key: token, linkUsed: true })
+    let accounts = await getAccounts()
+    let account = accounts.find(acct => verifySession.email === acct.email)
+
+    if (!account) return { location: '/login' };
+
+    account.verified = account.verified ? {...account.verified,email:true} : {email:true}
+    account = await upsertAccount({ ...account })
     return {
-      location: '/'
+      session: {},
+      location: '/verify/success-email'
     }
+
   } else if (unverified) {
     let accounts = await getAccounts()
-    let account = accounts.find(acct => unverified.email === acct.email && acct.emailVerified === true)
-    if (account) {
-      let { password, ...sanitizedAccount } = account
+    let account = accounts.find(acct => unverified.email === acct.email )
+    const accountVerified = account.verified?.email
+    
+    if (!account) return {location: '/login'};
+    if (accountVerified) {
       return {
-        session: { authorized: sanitizedAccount },
-        location: '/'
+        session: {},
+        location: '/verify/success-email'
+      }
+    } 
+
+    const verifyToken = crypto.randomBytes(32).toString('base64')
+    const { redirectAfterAuth = '/' } = req.session
+    await arc.events.publish({
+      name: 'verify-email',
+      payload: { verifyToken, email: account.email, redirectAfterAuth }, 
+    })
+    return {
+      session: {},
+      location: '/verify/waiting-email'
+    }
+
+  } else if (authorized) {
+    if (authorized.verified?.email===true){
+      return {
+        location: '/verify/success-email'
       }
     } else {
-      return // waiting to verify message
+      return { location: '/verify/success-email' }
     }
+
   } else {
     return {
-      //session: { emailVerified: false, },
       location: '/login'
     }
   }
 }
-

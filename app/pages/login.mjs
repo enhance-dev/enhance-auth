@@ -15,6 +15,9 @@ export default function login({ html, state }) {
       <enhance-text-input label="Password" id="password" name="password" type="password" errors="${problems?.password?.errors}"></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Login</span></enhance-submit-button>
       <enhance-link href="/forgot">Forgot Password?</enhance-link>
+      <p>OR login with a magic link sent to your email or phone number</p>
+      <enhance-text-input label="Email" id="email" name="email" type="email" errors="${problems?.email?.errors}"></enhance-text-input>
+      <enhance-text-input label="Phone Number" id="phone" name="phone" type="phone" errors="${problems?.phone?.errors}"></enhance-text-input>
     </enhance-form>
   </main>
 </enhance-page-container>

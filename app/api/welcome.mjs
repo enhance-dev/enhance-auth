@@ -1,7 +1,18 @@
-import { accountInfo, auth } from '../../middleware/auth-middleware.mjs'
-import send from '../../middleware/send.mjs'
 
 /**
  * @type {import('@enhance/types').EnhanceApiFn}
  */
-export const get = [auth, accountInfo, send]
+export async function get(req){
+  const session = req.session
+  const { authorized, unverified, ...newSession } = session
+
+  if (authorized || unverified){
+    return {
+      json: { authorized, unverified  }
+    }
+  }
+
+  return {
+    location: '/login'
+  }
+}

@@ -31,30 +31,28 @@ export async function post(req) {
   const { redirectAfterAuth = '/' } = session
 
   if (magic) {
-
-    const sessionToken = crypto.randomBytes(32).toString('base64')
     const verifyToken = crypto.randomBytes(32).toString('base64')
-
-    // TODO: Sanitize this
     const email = req.body.email
-
     await arc.events.publish({
       name: 'auth-link',
-      payload: { sessionToken, verifyToken, email, redirectAfterAuth },
+      payload: { verifyToken, email, redirectAfterAuth },
     })
-
     return {
       session: {},
-      html: '<div>Check the console for link</div>'
+      location: 'login/wait-link'
     }
-  } else if (traditional) {
+  } 
+
+  if (traditional) {
     const { password, displayName } = req.body
     const accounts = await getAccounts()
     const account = accounts.find(a => a.displayName === displayName)
     const match = account ? bcrypt.compareSync(password, account?.password) : false
-    if (match && account.emailVerified) {
-      const { password: hash, ...sanitizedAccount } = account
-      if (account.authConfig?.mfa?.enabled) {
+    const accountVerified = match ? !!(account.verified?.email || account.verified?.phone) : false
+    const mfa = account?.authConfig?.mfa?.enabled
+    const { password: removePassword, ...sanitizedAccount } = account
+    if (accountVerified) {
+      if (mfa) {
         return {
           session: { redirectAfterAuth, checkMultiFactor: sanitizedAccount },
           location: '/auth/otp'
@@ -62,44 +60,26 @@ export async function post(req) {
       }
       return {
         session: { authorized: sanitizedAccount },
-        location: redirectAfterAuth ? redirectAfterAuth : '/auth/welcome'
+        location: redirectAfterAuth ? redirectAfterAuth : '/'
       }
-    } else if (match && !account?.emailVerified) {
-      try {
-        const { password: removePassword, ...newAccount } = await upsertAccount({ ...register, emailVerified: false })
-
-
-        const sessionToken = crypto.randomBytes(32).toString('base64')
-        const verifyToken = crypto.randomBytes(32).toString('base64')
-        const { redirectAfterAuth = '/' } = session
-
-        await arc.events.publish({
-          name: 'verify-email',
-          payload: { sessionToken, verifyToken, email: register.email, redirectAfterAuth, newRegistration: true },
-        })
-
-        return {
-          session: { unverified: newAccount },
-          location: '/verify/email'
-        }
-      } catch (err) {
-        console.log(err)
-        return {
-          session: { error: err.message },
-          location: '/login'
-        }
-      }
-    } else {
+    } 
+    if (match && !accountVerified) {
       return {
-        session: { ...session, problems: { form: 'incorrect display name or password' }, login: displayName },
+        session: { unverified: sanitizedAccount },
+        location: '/welcome'
+      }
+    }
+    if (!match) {
+      return {
+        session: { problems: { form: 'Incorect Display Name or Password' }, login: displayName },
         location: '/login'
       }
     }
-  } else {
-    return {
-      session: {},
-      location: '/login'
-    }
   }
 
-}
+  return {
+    session: {},
+    location: '/login'
+  }
+
+} 

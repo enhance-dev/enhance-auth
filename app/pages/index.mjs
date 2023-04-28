@@ -1,6 +1,5 @@
 export default function({ html, state }) {
   const { authorized } = state.store
-  console.log(state.store)
   return html`
 <enhance-page-container>
   <nav-menu></nav-menu>
