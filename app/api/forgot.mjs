@@ -69,7 +69,7 @@ export async function post(req) {
 
   } else if (resetPassword && password && confirmPassword) {
     const resetEmail = resetPassword.email
-    const { valid, problems, newPassword,...rest} = await validate.update(req)
+    const { valid, problems, newPassword } = await validate.update(req)
     if (problems) {
       return {
         session:{...newSession, problems},

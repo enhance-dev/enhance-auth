@@ -1,6 +1,6 @@
 import oauthUrls from '../../../auth/oauth-urls.mjs'
 const isLocal = process.env.ARC_ENV === 'testing'
-const useMock = !process.env.OAUTH_CLIENT_ID || process.env.OAUTH_CLIENT_ID === 'USE_MOCK'
+const useMock = !process.env.OAUTH_CLIENT_ID || !process.env.OAUTH_CLIENT_SECRET
 
 const mockProviderAccounts = [
   {
@@ -49,15 +49,15 @@ async function getLogin(req) {
       html: `
 <h1 style="font-size:2rem">Mock OAuth Login Page</h1>
     ${mockProviderAccounts
-          .map(
-            (k, i) =>
-              `<a href="${urls.codeUrl +
+    .map(
+      (k, i) =>
+        `<a href="${urls.codeUrl +
               '?mock=' +
               mockCodes[i] +
               `${state ? `&state=${encodeURIComponent(state)}` : ''}`
-              }">${k.name}</a>`
-          )
-          .join(' <br/> ')}
+        }">${k.name}</a>`
+    )
+    .join(' <br/> ')}
     `
     }
   }
@@ -72,7 +72,7 @@ async function getCode(req) {
       status: 302,
       location: `${redirect}?code=${code}${state ?
         `&state=${encodeURIComponent(state)}` : ''
-        }`
+      }`
     }
   }
 }
