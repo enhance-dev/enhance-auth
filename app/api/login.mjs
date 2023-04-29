@@ -26,13 +26,22 @@ export async function get(req) {
 
 export async function post(req) {
   const session = req?.session
-  const traditional = !!(req.body.password || req.body.displayName)
-  const magic = !!(!traditional && req.body.email)
+  const paswordLogin = !!(req.body.password || req.body.displayName)
+  const emailLinkLogin = !!(!paswordLogin && req.body.email)
+  const smsCodeLogin = !!(!paswordLogin && !emailLinkLogin && req.body.phone)
   const { redirectAfterAuth = '/' } = session
 
-  if (magic) {
+  if (emailLinkLogin) {
     const verifyToken = crypto.randomBytes(32).toString('base64')
     const email = req.body.email
+    const accounts = await getAccounts()
+    const account = accounts.find(a => a.email === email && a.verified.email)
+    if (!account) { 
+      return { 
+        session: { problems: { form: 'Invalid Email' }, login: {email} },
+        location: '/login'
+      }
+    }
     await arc.events.publish({
       name: 'auth-link',
       payload: { verifyToken, email, redirectAfterAuth },
@@ -43,7 +52,24 @@ export async function post(req) {
     }
   } 
 
-  if (traditional) {
+  if (smsCodeLogin) {
+    const phone = req.body.phone
+    const accounts = await getAccounts()
+    const account = accounts.find(a => a.phone === phone && a.verified.phone)
+    const { password: removePassword, ...sanitizedAccount } = account
+    if (!account) { 
+      return { 
+        session: { problems: { form: 'Invalid Phone' }, login: {phone} },
+        location: '/login'
+      }
+    }
+    return {
+      session: {smsCodeLogin:{phone, account:sanitizedAccount}},
+      location: 'login/sms'
+    }
+  } 
+
+  if (paswordLogin) {
     const { password, displayName } = req.body
     const accounts = await getAccounts()
     const account = accounts.find(a => a.displayName === displayName)
@@ -71,7 +97,7 @@ export async function post(req) {
     }
     if (!match) {
       return {
-        session: { problems: { form: 'Incorect Display Name or Password' }, login: displayName },
+        session: { problems: { form: 'Incorect Display Name or Password' }, login: {displayName} },
         location: '/login'
       }
     }
