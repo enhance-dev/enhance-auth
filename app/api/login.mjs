@@ -2,7 +2,13 @@ import crypto from 'crypto'
 import arc from '@architect/functions'
 import loginHref from '../auth-shared/login-href.mjs'
 import bcrypt from 'bcryptjs'
-import { getAccounts, upsertAccount } from '../models/accounts.mjs'
+import { getAccounts } from '../models/accounts.mjs'
+// Hardcoded admin account to bootstrap accounts.
+// The password is defined in environment variables
+const hardcodedAdmin = {
+  displayName: 'hardcoded',
+  scopes: ['admin'],
+}
 
 /**
  * @type {import('@enhance/types').EnhanceApiFn}
@@ -26,9 +32,9 @@ export async function get(req) {
 
 export async function post(req) {
   const session = req?.session
-  const paswordLogin = !!(req.body.password || req.body.displayName)
-  const emailLinkLogin = !!(!paswordLogin && req.body.email)
-  const smsCodeLogin = !!(!paswordLogin && !emailLinkLogin && req.body.phone)
+  const passwordLogin = !!(req.body.password || req.body.displayName)
+  const emailLinkLogin = !!(!passwordLogin && req.body.email)
+  const smsCodeLogin = !!(!passwordLogin && !emailLinkLogin && req.body.phone)
   const { redirectAfterAuth = '/' } = session
 
   if (emailLinkLogin) {
@@ -69,9 +75,19 @@ export async function post(req) {
     }
   } 
 
-  if (paswordLogin) {
+  if (passwordLogin) {
     const { password, displayName } = req.body
-    const accounts = await getAccounts()
+
+    // Hardcoded admin account to bootstrap accounts
+    // To disable remove the HARDCODED_ADMIN_PASSWORD from environment variables
+    if (process.env.HARDCODED_ADMIN_PASSWORD && displayName === hardcodedAdmin.displayName  && password === process.env.HARDCODED_ADMIN_PASSWORD) {
+      return {
+        session: { authorized: hardcodedAdmin },
+        location: '/accounts'
+      }
+    }
+
+    let accounts = await getAccounts()
     const account = accounts.find(a => a.displayName === displayName && a.authConfig?.loginAllowed?.includes('password'))
     const match = account ? bcrypt.compareSync(password, account?.password) : false
     const accountVerified = match ? !!(account.verified?.email || account.verified?.phone) : false
