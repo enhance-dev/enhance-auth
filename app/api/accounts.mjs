@@ -7,16 +7,17 @@ import { getAccounts, upsertAccount, validate } from '../models/accounts.mjs'
 /**
  * @type {EnhanceApiFn}
  */
-export const get = [checkRole('admin'), accountInfo, list, send]
-
 export async function get(req) {
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
   const scopes = authorized?.scopes
-  if (!scopes?.includes('admin')) return {
-    status: 401,
-    html: `<h1>Not Authorized</h1>`
+  const admin = scopes?.includes('admin')
+  if (!admin) {
+    return {
+      location: '/'
+    }
   }
+
 
   const accounts = await getAccounts()
   if (req.session.problems) {
@@ -39,9 +40,11 @@ export async function post(req) {
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
   const scopes = authorized?.scopes
-  if (!scopes?.includes('admin')) return {
-    status: 401,
-    html: `<h1>Not Authorized</h1>`
+  const admin = scopes?.includes('admin')
+  if (!admin) {
+    return {
+      status:401
+    }
   }
 
 

@@ -3,13 +3,15 @@
   * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
   */
 import { getAccount, upsertAccount, validate } from '../../models/accounts.mjs'
-import { checkAuth } from '../../models/auth/auth-check.mjs'
 
 /**
  * @type {EnhanceApiFn}
  */
 export async function get (req) {
-  const admin = checkAuth(req, 'admin')
+  const session = req.session
+  const authorized = session?.authorized ? session?.authorized : false
+  const scopes = authorized?.scopes
+  const admin = scopes?.includes('admin')
   if (!admin) {
     return {
       location: '/'
@@ -36,17 +38,19 @@ export async function get (req) {
  * @type {EnhanceApiFn}
  */
 export async function post (req) {
-  const admin = checkAuth(req, 'admin')
+  const session = req.session
+  const authorized = session?.authorized ? session?.authorized : false
+  const scopes = authorized?.scopes
+  const admin = scopes?.includes('admin')
   if (!admin) {
     return {
-      statusCode: 401
+      status:401
     }
   }
 
   
   const id = req.pathParameters?.id
 
-  const session = req.session
   // Validate
   let { problems, account } = await validate.update(req)
   if (problems) {

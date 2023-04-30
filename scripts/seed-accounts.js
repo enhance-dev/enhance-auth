@@ -10,6 +10,7 @@ async function main() {
     verified: { email: true, phone: true },
     phone: '123-123-1234',
     scopes: ['admin', 'member'],
+    authConfig: { mfa: { enabled: false, type: 'sms' }, loginAllowed:['password','email-link','sms-code'] },
     provider: { github: { login: 'janedoe' }, google: { email: 'admin@example.com' } },
   })
   await db.set({
@@ -22,7 +23,7 @@ async function main() {
     verified: { email: true, phone: true },
     phone: '123-555-1234',
     scopes: ['member'],
-    authConfig: { mfa: { enabled: true, type: 'sms' } },
+    authConfig: { mfa: { enabled: true, type: 'sms' }, loginAllowed:['password'] },
     provider: { github: { login: 'johnsmith' }, google: { email: 'member@example.com' } },
   })
 

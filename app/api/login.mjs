@@ -35,7 +35,7 @@ export async function post(req) {
     const verifyToken = crypto.randomBytes(32).toString('base64')
     const email = req.body.email
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.email === email && a.verified.email)
+    const account = accounts.find(a => a.email === email && a.verified?.email && a.authConfig?.loginAllowed?.includes('email-link'))
     if (!account) { 
       return { 
         session: { problems: { form: 'Invalid Email' }, login: {email} },
@@ -55,7 +55,7 @@ export async function post(req) {
   if (smsCodeLogin) {
     const phone = req.body.phone
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.phone === phone && a.verified.phone)
+    const account = accounts.find(a => a.phone === phone && a.verified.phone && a.authConfig?.loginAllowed?.includes('sms-code'))
     const { password: removePassword, ...sanitizedAccount } = account
     if (!account) { 
       return { 
@@ -72,7 +72,7 @@ export async function post(req) {
   if (paswordLogin) {
     const { password, displayName } = req.body
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.displayName === displayName)
+    const account = accounts.find(a => a.displayName === displayName && a.authConfig?.loginAllowed?.includes('password'))
     const match = account ? bcrypt.compareSync(password, account?.password) : false
     const accountVerified = match ? !!(account.verified?.email || account.verified?.phone) : false
     const mfa = account?.authConfig?.mfa?.enabled
