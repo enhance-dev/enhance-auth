@@ -19,10 +19,22 @@ const validate = {
 
     const accounts = await getAccounts()
 
+    if (!req.body.phone && !req.body.email) {
+      valid = false
+      problems['email'] = { errors: `<p>Email or Phone required</>` }
+      problems['phone'] = { errors: `<p>Email or Phone required</>` }
+    }
+   
+
     const matchEmail = accounts.find(account => account.email === req.body.email)
     if (matchEmail) {
       valid = false
       problems['email'] = { errors: `<p>Email already registered</>` }
+    }
+    const matchPhone = accounts.find(account => account.phone === req.body.phone)
+    if (matchPhone) {
+      valid = false
+      problems['phone'] = { errors: `<p>Phone already registered</>` }
     }
     const matchDisplayName = accounts.find(account => account.displayName === req.body.displayName)
     if (matchDisplayName) {

@@ -2,7 +2,7 @@ export const Register = {
   "id": "Register",
   "type": "object",
   "required": [
-    "email", "displayName", "password"
+    "displayName", "password"
   ],
   "properties": {
     "email": {
