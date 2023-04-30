@@ -1,6 +1,24 @@
 import tiny from 'tiny-json-http'
 import { getAccounts } from '../../models/accounts.mjs'
-import oauthUrls from '../../auth/oauth-urls.mjs'
+const isLocal = process.env.NODE_ENV === 'testing'
+const useMock = !process.env.OAUTH_CLIENT_ID || !process.env.OAUTH_CLIENT_SECRET
+const domain = isLocal ? process.env.DOMAIN_NAME || 'http://localhost:3333' : process.env.DOMAIN_NAME
+let urls
+if (isLocal || useMock) {
+  urls = {
+    authorizeUrl: `${domain}/auth/_mock/login`,
+    redirectUrl: `${domain}/auth/oauth`,
+    tokenUrl: `${domain}/auth/_mock/token`,
+    userInfoUrl: `${domain}/auth/_mock/user`,
+  }
+} else {
+  urls = {
+    authorizeUrl: process.env.OAUTH_AUTHORIZE_URL,
+    redirectUrl: `${domain}/auth/oauth`,
+    tokenUrl: process.env.OAUTH_TOKEN_URL,
+    userInfoUrl: process.env.OAUTH_USERINFO_URL,
+  }
+}
 
 export async function get(req) {
   const { afterAuthRedirect = '' } = req.session
@@ -62,7 +80,6 @@ export async function get(req) {
 
 
 async function oauth(code) {
-  const urls = oauthUrls()
 
 
   const data = {
@@ -90,5 +107,3 @@ async function oauth(code) {
     oauth: { github: providerUser }
   }
 }
-
-

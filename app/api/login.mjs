@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import arc from '@architect/functions'
-import loginHref from '../auth/login-href.mjs'
+import loginHref from '../auth-shared/login-href.mjs'
 import bcrypt from 'bcryptjs'
 import { getAccounts, upsertAccount } from '../models/accounts.mjs'
 

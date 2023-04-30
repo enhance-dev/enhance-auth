@@ -1,6 +1,13 @@
-import oauthUrls from '../../../auth/oauth-urls.mjs'
 const isLocal = process.env.ARC_ENV === 'testing'
 const useMock = !process.env.OAUTH_CLIENT_ID || !process.env.OAUTH_CLIENT_SECRET
+const domain = process.env.DOMAIN_NAME || 'http://localhost:3333'
+const urls = {
+  authorizeUrl: `${domain}/auth/_mock/login`,
+  codeUrl: `${domain}/auth/_mock/code`,
+  redirectUrl: `${domain}/auth/oauth`,
+  tokenUrl: `${domain}/auth/_mock/token`,
+  userInfoUrl: `${domain}/auth/_mock/user`,
+}
 
 const mockProviderAccounts = [
   {
@@ -38,7 +45,6 @@ async function mock() {
 }
 
 async function getLogin(req) {
-  const urls = oauthUrls()
   const mockCodes = mockProviderAccounts.map((i) =>
     Buffer.from(i.login).toString('base64')
   )
@@ -65,7 +71,6 @@ async function getLogin(req) {
 async function getCode(req) {
   const state = req?.query?.state
   if (req.params.part === 'code') {
-    const urls = oauthUrls()
     const code = req.query.mock
     const redirect = urls.redirectUrl
     return {

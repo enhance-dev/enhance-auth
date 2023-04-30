@@ -3,15 +3,20 @@
   * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
   */
 import { getAccounts, upsertAccount, validate } from '../models/accounts.mjs'
-import { checkRole, accountInfo } from '../middleware/auth-middleware.mjs'
-import send from '../middleware/send.mjs'
 
 /**
  * @type {EnhanceApiFn}
  */
 export const get = [checkRole('admin'), accountInfo, list, send]
 
-export async function list(req) {
+export async function get(req) {
+  const session = req.session
+  const authorized = session?.authorized ? session?.authorized : false
+  const scopes = authorized?.scopes
+  if (!scopes?.includes('admin')) return {
+    status: 401,
+    html: `<h1>Not Authorized</h1>`
+  }
 
   const accounts = await getAccounts()
   if (req.session.problems) {
@@ -31,15 +36,15 @@ export async function list(req) {
  * @type {EnhanceApiFn}
  */
 export async function post(req) {
-  const admin = checkAuth(req, 'admin')
-  if (!admin) {
-    return {
-      statusCode: 401
-    }
+  const session = req.session
+  const authorized = session?.authorized ? session?.authorized : false
+  const scopes = authorized?.scopes
+  if (!scopes?.includes('admin')) return {
+    status: 401,
+    html: `<h1>Not Authorized</h1>`
   }
 
 
-  const session = req.session
   // Validate
   let { problems, account } = await validate.create(req)
   if (problems) {

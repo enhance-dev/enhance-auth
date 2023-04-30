@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import loginHref from '../auth/login-href.mjs'
+import loginHref from '../auth-shared/login-href.mjs'
 import { validate } from '../models/register.mjs'
 import { upsertAccount } from '../models/accounts.mjs'
 

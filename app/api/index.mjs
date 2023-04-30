@@ -1,3 +1,5 @@
-import { accountInfo } from '../middleware/auth-middleware.mjs'
-import send from '../middleware/send.mjs'
-export const get = [accountInfo, send]
+export async function get(req){
+  const session = req.session
+  const authorized = session?.authorized ? session?.authorized : false
+  return {json: {authorized}}
+}

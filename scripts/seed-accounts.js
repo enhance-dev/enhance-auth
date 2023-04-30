@@ -9,7 +9,7 @@ async function main() {
     email: 'admin@example.com',
     verified: { email: true, phone: true },
     phone: '123-123-1234',
-    roles: ['admin', 'member'],
+    scopes: ['admin', 'member'],
     provider: { github: { login: 'janedoe' }, google: { email: 'admin@example.com' } },
   })
   await db.set({
