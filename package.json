@@ -2,7 +2,7 @@
   "name": "enhance-auth",
   "version": "0.0.1",
   "scripts": {
-    "start": "begin dev",
+    "start": "enhance dev",
     "lint": "eslint ./**/*.mjs --fix"
   },
   "devDependencies": {

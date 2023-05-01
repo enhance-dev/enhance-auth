@@ -17,7 +17,7 @@ The example currently offers the following features:
 - Phone number verification
 - Forgot password (recovery via SMS or Email)
 
-Additional features will be added over time. Some planned features include:
+Additional features will be added over time. Planned features include:
 - Multifactor authentication (SMS, EMail, and TOTP)
 - OAuth with multiple providers
 
