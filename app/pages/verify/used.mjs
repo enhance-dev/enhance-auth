@@ -5,7 +5,7 @@ export default function UsedLink({html,state}){
 <enhance-page-container>
 <nav-menu></nav-menu>
   <h1 class="mb1 font-semibold text2">Link Used</h1>
-  <p>The link has already been used or expired.</p>
+  <p>The link expired or has already been used.</p>
   ${authorized ? `
   <p>Request a new link <enhance-link href='/verify/email'>New Link</enhance-link> </p>
 

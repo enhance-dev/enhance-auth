@@ -4,7 +4,7 @@ const domain = process.env.DOMAIN_NAME || 'http://localhost:3333'
 const urls = {
   authorizeUrl: `${domain}/auth/_mock/login`,
   codeUrl: `${domain}/auth/_mock/code`,
-  redirectUrl: `${domain}/auth/oauth`,
+  redirectUrl: `${domain}/oauth`,
   tokenUrl: `${domain}/auth/_mock/token`,
   userInfoUrl: `${domain}/auth/_mock/user`,
 }

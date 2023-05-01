@@ -3,6 +3,6 @@ export default function email({ html, state }) {
 <enhance-page-container>
   <nav-menu></nav-menu>
   <h1 class="mb1 font-semibold text3">Verify Email</h1>
-  <p>Check your email for a link to verify your account</p>
+  <p>Check your email for a link to verify your account.</p>
 </enhance-page-container>
 ` }

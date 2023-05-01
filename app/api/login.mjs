@@ -91,7 +91,7 @@ export async function post(req) {
     const match = account ? bcrypt.compareSync(password, account?.password) : false
     const accountVerified = match ? !!(account.verified?.email || account.verified?.phone) : false
     const mfa = account?.authConfig?.mfa?.enabled
-    const { password: removePassword, ...sanitizedAccount } = account
+    const { password: removePassword, ...sanitizedAccount } = account || {}
     if (accountVerified) {
       if (mfa) {
         return {

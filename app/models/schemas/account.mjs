@@ -5,10 +5,6 @@ export const Account = {
     "displayName", "password"
   ],
   "properties": {
-    "email": {
-      "type": "string",
-      "format": "email"
-    },
     "displayName": {
       "type": "string",
       "pattern": "^[a-zA-Z0-9_\-]*$",
@@ -18,9 +14,29 @@ export const Account = {
       "type": "string",
       "minLength": 8
     },
+    "email": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "email"
+        },
+        {
+          "type": "string",
+          "maxLength": 0
+        }
+      ]
+    },
     "phone": {
-      "type": "string",
-      "format": "[0-9]{3}-[0-9]{3}-[0-9]{4}"
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        },
+        {
+          "type": "string",
+          "maxLength": 0
+        }
+      ]
     },
     "scopes": {
       "type": "array",

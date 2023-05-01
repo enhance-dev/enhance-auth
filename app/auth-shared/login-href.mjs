@@ -1,16 +1,16 @@
-const isLocal = process.env.NODE_ENV === 'testing'
+const isLocal = process.env.ARC_ENV === 'testing'
 const useMock = !process.env.OAUTH_CLIENT_ID || !process.env.OAUTH_CLIENT_SECRET
 const domain = isLocal ? process.env.DOMAIN_NAME || 'http://localhost:3333' : process.env.DOMAIN_NAME
 let urls
 if (isLocal || useMock) {
   urls = {
     authorizeUrl: `${domain}/auth/_mock/login`,
-    redirectUrl: `${domain}/auth/oauth`,
+    redirectUrl: `${domain}/oauth`,
   }
 } else {
   urls = {
     authorizeUrl: process.env.OAUTH_AUTHORIZE_URL,
-    redirectUrl: `${domain}/auth/oauth`,
+    redirectUrl: `${domain}/oauth`,
   }
 }
 export default function loginHref({ redirectAfterAuth = '/', newRegistration = '' }) {

@@ -1,6 +1,5 @@
 export default function login({ html, state }) {
   const problems = state.store.problems || {}
-  console.log('problems', problems)
   const { resetPassword, linkUsed, linkInvalid } = state.store
   return html`
 <enhance-page-container>
