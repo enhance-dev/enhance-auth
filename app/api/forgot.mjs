@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import db from '@begin/data'
-import arc from '@architect/functions'
+import sgMail from '@sendgrid/mail'
 import bcrypt from 'bcryptjs'
 import { getAccounts, upsertAccount } from '../models/accounts.mjs'
 import { validate } from '../models/forgot.mjs'
@@ -56,10 +56,7 @@ export async function post(req) {
       const verifyToken = crypto.randomBytes(32).toString('base64')
       const { redirectAfterAuth = '/' } = session
 
-      await arc.events.publish({
-        name: 'reset-password-link',
-        payload: { verifyToken, email, redirectAfterAuth },
-      })
+      await sendLink({ verifyToken, email, redirectAfterAuth })
 
       return {
         session: {},
@@ -101,5 +98,40 @@ export async function post(req) {
       session: {},
       location: '/login'
     }
+  }
+}
+
+async function sendLink({ verifyToken, email, redirectAfterAuth = '/', newRegistration = false }){
+  const isLocal = process.env.ARC_ENV === 'testing'
+  const requiredEnvs = process.env.TRANSACTION_SEND_EMAIL && process.env.SENDGRID_API_KEY
+  const domain = process.env.DOMAIN_NAME || 'http://localhost:3333'
+
+  await db.set({ table: 'session', key: verifyToken, verifyToken, 
+    email, redirectAfterAuth, newRegistration, linkUsed:false})
+
+
+  // Local Development Testing Setup
+  if (isLocal) {
+    console.log('Reset Password: ', `${domain}/forgot?token=${encodeURIComponent(verifyToken)}`)
+  }
+
+  if (requiredEnvs) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    let toEmail = email
+    if(isLocal) toEmail = process.env.TRANSACTION_SEND_EMAIL;
+    const msg = {
+      to: toEmail,
+      from: `${process.env.TRANSACTION_SEND_EMAIL}`,
+      subject: 'enhance-auth-magic-link',
+      text: `${domain}/forgot?token=${encodeURIComponent(verifyToken)}`
+      //html: '<strong>This is HTML</strong>',
+    }
+    try {
+      await sgMail.send(msg)
+    } catch (e) {
+      console.error(e)
+    }
+  } else {
+    console.log('TRANSACTION_SEND_EMAIL and SENDGRID_API_KEY needed to send')
   }
 }

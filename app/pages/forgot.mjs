@@ -1,5 +1,6 @@
 export default function login({ html, state }) {
   const problems = state.store.problems || {}
+  console.log('problems', problems)
   const { resetPassword, linkUsed, linkInvalid } = state.store
   return html`
 <enhance-page-container>
@@ -15,8 +16,8 @@ export default function login({ html, state }) {
 
       ${resetPassword ? `
       <p>Enter a new password</p>
-      <enhance-text-input label="New Password" id="password" name="password" type="password" errors="${problems?.password?.errors || ''}" ></enhance-text-input>
-      <enhance-text-input label="Confirm Password" id="confirmPassword" name="confirmPassword" type="password" errors="${problems?.confirmPassword?.errors || ''}" ></enhance-text-input>
+      <enhance-text-input label="New Password" id="password" name="password" type="password" minlength=8 errors="${problems?.password?.errors || ''}" ></enhance-text-input>
+      <enhance-text-input label="Confirm Password" id="confirmPassword" name="confirmPassword" type="password" minlength=8 errors="${problems?.confirmPassword?.errors || ''}" ></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Reset Password</span></enhance-submit-button>
       ` : `
       <p>Enter your email address and we'll send you a link to reset your password.</p>
