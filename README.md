@@ -1,17 +1,42 @@
 # Enhance Authentication Example
-
 An example of authentication for an Enhance App showing Oauth, Magic Link, and traditional username/password authentication.
-This is a work in progress.
+This is a work in progress. Please file [issues and bugs](https://github.com/enhance-dev/enhance-auth/issues) on this repo to help improve this resource.
+
+## Getting Started
+1. `git clone https://github.com/enhance-dev/enhance-auth`
+2. `npm i`
+3. `npm start`
+
+## Features
+The example currently offers the following features:
+- Password/username login
+- Email link login (sometimes called "Magic Links")
+- Login via SMS code 
+- New account registration
+- Email verification
+- Phone number verification
+- Forgot password (recovery via SMS or Email)
+
+Additional features will be added over time. Some planned features include:
+- Multifactor authentication (SMS, EMail, and TOTP)
+- OAuth with multiple providers
 
 ## 3rd party services
 Enhance and Architect have most of the primitives needed to build a website or app.
-For authentication there are several other services needed.
+For authentication there are several other services needed depending on the required features.
 For transactional email and SMS messages a service is required. 
 If external OAuth login is used a provider account is needed also. 
 
 ## Local Testing
 To simplify local development this example will work without any of the 3rd party providers enabled.
 Mock paths are included so that if environment variables for OAuth, Phone, or Email are omitted they will be mocked only for the local development environment. 
+These bypass code paths do not provide any security and are only active for local testing.
+
+## Seeding accounts for local testing
+The `scripts/seed-accounts.js` script is run when the local sandbox is started. 
+It can be used to seed the database with accounts for testing. 
+The mock OAuth server in `/auth/_mock/$part.mjs` has fake OAuth accounts. 
+
 
 ## Bootstrapping accounts with hard coded Admin
 When deploying a new project with no accounts you may need to bootstrap an account to have administrator permissions to edit created accounts. 
@@ -52,6 +77,7 @@ For local testing you can use a `.env` file similar to the following.
 # Environment Variables used for Authentication
 # An app secret is needed to secure sessions
 ARC_APP_SECRET=A_REAL_SECRET_FOR_PRODUCTION
+HARDCODED_ADMIN_PASSWORD=atemporarypassword
 # If OAuth client and secret are empty a mock OAuth is used for testing `/auth/_mock`
 OAUTH_CLIENT_ID=key
 OAUTH_CLIENT_SECRET=key
