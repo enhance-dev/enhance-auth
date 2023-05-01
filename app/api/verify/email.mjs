@@ -83,8 +83,8 @@ async function sendLink({ verifyToken, email, redirectAfterAuth = '/', newRegist
     const msg = {
       to: toEmail,
       from: `${process.env.TRANSACTION_SEND_EMAIL}`,
-      subject: 'enhance-auth-magic-link',
-      text: `${domain}/verify/email?token=${encodeURIComponent(verifyToken)}`
+      subject: 'Enhance Authentication Example Login',
+      text: `Here is your link to login to the Enhance authentication example app ${domain}/verify/email?token=${encodeURIComponent(verifyToken)}`
       //html: '<strong>This is HTML</strong>',
     }
     try {
