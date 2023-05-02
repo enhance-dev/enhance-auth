@@ -17,8 +17,8 @@ export default function({ html, state }) {
   return html`
 <enhance-page-container>
   <nav-menu></nav-menu>
-  <p>Welcome ${authorized?.displayName || unverified?.displayName} you are Logged In.</p>
-  ${!(phoneIsVerified || emailIsVerified) ? `<p>You need need to verify your account with either your phone number of email</p>` : ''}
+  <p>Welcome ${authorized?.displayName || unverified?.displayName} you are logged in.</p>
+  ${!(phoneIsVerified || emailIsVerified) ? `<p>You need to verify your account with either your phone number or email</p>` : ''}
   ${ hasEmail  && !emailIsVerified ? `<enhance-link href='/verify/email'>Verify Email</enhance-link>` :''}
   ${ hasPhone && !phoneIsVerified ? `<enhance-link href='/verify/sms'>Verify Phone</enhance-link>` :''}
   ${ !hasPhone && !hasEmail ? `Add an email or phone to your account` :''}

@@ -1,9 +1,7 @@
 export const Register = {
   "id": "Register",
   "type": "object",
-  "required": [
-    "displayName", "password"
-  ],
+  "additionalProperties": false,
   "properties": {
     "displayName": {
       "type": "string",
@@ -11,6 +9,10 @@ export const Register = {
       "maxLength": 30
     },
     "password": {
+      "type": "string",
+      "minLength": 8
+    },
+    "confirmPassword": {
       "type": "string",
       "minLength": 8
     },
@@ -38,5 +40,9 @@ export const Register = {
         }
       ]
     }
-  }
+  },
+  "dependentRequired": {
+    "displayName": ["password"],
+    "password": ["displayName","confirmPassword"]
+  },
 }

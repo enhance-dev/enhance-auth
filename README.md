@@ -16,10 +16,12 @@ The example currently offers the following features:
 - Email verification
 - Phone number verification
 - Forgot password (recovery via SMS or Email)
+- OAuth with GitHub
 
 Additional features will be added over time. Planned features include:
 - Multifactor authentication (SMS, EMail, and TOTP)
 - OAuth with multiple providers
+- Scopes for fine grained permissions
 
 ## 3rd party services
 Enhance and Architect have most of the primitives needed to build a website or app.

@@ -35,7 +35,7 @@ const validate = {
       valid = false
       problems['phone'] = { errors: `<p>Phone already registered</p>` }
     }
-    const matchDisplayName = accounts.find(account => account.displayName === req.body.displayName)
+    const matchDisplayName = req.body.displayName && accounts.find(account => account.displayName === req.body.displayName)
     if (matchDisplayName) {
       valid = false
       problems['displayName'] = { errors: `<p>Display name already registered</p>` }

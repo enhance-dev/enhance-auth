@@ -2,7 +2,7 @@
 /**
   * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
   */
-import { getAccounts, upsertAccount, validate } from '../models/accounts.mjs'
+import { getAccounts, upsertAccount, validate } from '../../models/accounts.mjs'
 
 /**
  * @type {EnhanceApiFn}

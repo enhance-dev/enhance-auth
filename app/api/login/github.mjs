@@ -1,5 +1,5 @@
 import tiny from 'tiny-json-http'
-import { getAccounts } from '../models/accounts.mjs'
+import { getAccounts } from '../../models/accounts.mjs'
 const isLocal = process.env.ARC_ENV === 'testing'
 const useMock = !process.env.OAUTH_CLIENT_ID || !process.env.OAUTH_CLIENT_SECRET
 const domain = isLocal ? process.env.DOMAIN_NAME || 'http://localhost:3333' : process.env.DOMAIN_NAME
@@ -7,14 +7,14 @@ let urls
 if (isLocal || useMock) {
   urls = {
     authorizeUrl: `${domain}/auth/_mock/login`,
-    redirectUrl: `${domain}/oauth`,
+    redirectUrl: `${domain}/login/github`,
     tokenUrl: `${domain}/auth/_mock/token`,
     userInfoUrl: `${domain}/auth/_mock/user`,
   }
 } else {
   urls = {
     authorizeUrl: process.env.OAUTH_AUTHORIZE_URL,
-    redirectUrl: `${domain}/oauth`,
+    redirectUrl: `${domain}/login/github`,
     tokenUrl: process.env.OAUTH_TOKEN_URL,
     userInfoUrl: process.env.OAUTH_USERINFO_URL,
   }
@@ -59,9 +59,10 @@ export async function get(req) {
       } else if (!newRegistration) {
         throw Error('user not found')
       } else {
+        console.log({ ...session, redirectAfterAuth: redirect, })
         return {
           session: { ...session, redirectAfterAuth: redirect, },
-          location: '/auth/register'
+          location: '/register/account'
         }
       }
 

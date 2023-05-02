@@ -28,7 +28,7 @@
     }
   },
   "dependencies": {
-    "@begin/validator": "^1.0.0",
+    "@begin/validator": "^1.0.1",
     "@enhance/arc-plugin-enhance": "^5.0.1",
     "@enhance/form-elements": "github:enhance-dev/form-elements",
     "@sendgrid/mail": "^7.7.0",

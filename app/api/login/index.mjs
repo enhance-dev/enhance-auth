@@ -1,9 +1,9 @@
 import crypto from 'crypto'
 import db from '@begin/data'
 import sgMail from '@sendgrid/mail'
-import loginHref from '../auth-shared/login-href.mjs'
+import loginHref from '../../auth-shared/login-href.mjs'
 import bcrypt from 'bcryptjs'
-import { getAccounts } from '../models/accounts.mjs'
+import { getAccounts } from '../../models/accounts.mjs'
 // Hardcoded admin account to bootstrap accounts.
 // The password is defined in environment variables
 const hardcodedAdmin = {

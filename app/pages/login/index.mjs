@@ -1,6 +1,7 @@
 export default function login({ html, state }) {
   const problems = state.store.problems || {}
   const login = state.store.login || {}
+  const githubOauthHref = state.store.githubOauthHref || ''
   return html`
 <style>
 h2 {
@@ -25,7 +26,7 @@ h2:after {
   <main>
     <h1 class="mb1 font-semibold text3">Login page</h1>
     <enhance-chiclet-container>
-      <enhance-chiclet href="/github" style="background-color: var(--secondary-900)">
+      <enhance-chiclet href="${githubOauthHref}" style="background-color: var(--secondary-900)">
         <span slot="label">Login with GitHub</span>
       </enhance-chiclet>
       <enhance-chiclet href="/login/magic-email"  style="background-color: var(--success-500)">
