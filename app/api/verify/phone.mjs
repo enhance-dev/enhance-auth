@@ -61,7 +61,7 @@ export async function post(req) {
 
     return {
       session: newSession,
-      location: '/verify/sms'
+      location: '/verify/phone'
     }
   } 
   if (otpCode) {
@@ -111,6 +111,6 @@ export async function post(req) {
     } 
   } 
   return {
-    location: '/verify/sms'
+    location: '/verify/phone'
   }
 }

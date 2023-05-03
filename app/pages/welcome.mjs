@@ -20,7 +20,7 @@ export default function({ html, state }) {
   <p>Welcome ${authorized?.displayName || unverified?.displayName} you are logged in.</p>
   ${!(phoneIsVerified || emailIsVerified) ? `<p>You need to verify your account with either your phone number or email</p>` : ''}
   ${ hasEmail  && !emailIsVerified ? `<enhance-link href='/verify/email'>Verify Email</enhance-link>` :''}
-  ${ hasPhone && !phoneIsVerified ? `<enhance-link href='/verify/sms'>Verify Phone</enhance-link>` :''}
+  ${ hasPhone && !phoneIsVerified ? `<enhance-link href='/verify/phone'>Verify Phone</enhance-link>` :''}
   ${ !hasPhone && !hasEmail ? `Add an email or phone to your account` :''}
 </enhance-page-container>
 `}
