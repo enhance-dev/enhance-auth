@@ -21,8 +21,10 @@ if (isLocal && useMock) {
 }
 
 export async function get(req) {
+  console.log('github login session',req.session)
   const { afterAuthRedirect = '' } = req.session
   const { query: { code, state } } = req
+  console.log('query',req.query)
 
 
   if (!code){
@@ -40,14 +42,18 @@ export async function get(req) {
       }
     // eslint-disable-next-line no-empty
     } catch (e) { }
+    console.log('state',state)
     const redirect = redirectAfterAuth || afterAuthRedirect || '/'
     try {
       const oauthAccount = await oauth(code)
       if (!oauthAccount.oauth.github) throw Error('user not found')
       const accounts = await getAccounts()
       const appUser = accounts.find(a => a.provider?.github?.login === oauthAccount?.oauth?.github?.login)
-      const { password: removePassword, ...sanitizedAccount } = appUser
+      const { password: removePassword, ...sanitizedAccount } = appUser || {}
       const accountVerified = appUser?.verified?.phone || appUser?.verified?.email
+      console.log({appUser})
+      console.log({oauthAccount})
+      console.log({accountVerified})
 
       if (!appUser) {
         return {

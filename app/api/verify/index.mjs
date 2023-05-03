@@ -18,7 +18,7 @@ export async function get(req){
     emailVerified = unverified.verified?.email
     const verifyPhone = phone && !phoneVerified
     const verifyEmail = email && !emailVerified
-    if (verifyPhone){
+    if (verifyEmail){
       // send verification link
       const verifyToken = crypto.randomBytes(32).toString('base64')
       await sendLink({ verifyToken, email, redirectAfterAuth })
@@ -29,7 +29,7 @@ export async function get(req){
         }
       }
     }
-    if (verifyEmail){
+    if (verifyPhone){
       // send SMS code 
       const { smsVerify, unverified, authorized} = req.session
 

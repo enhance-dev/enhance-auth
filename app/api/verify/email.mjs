@@ -13,7 +13,7 @@ export async function get(req) {
     const verifySession = await db.get({ table: 'session', key: token })
     const { linkUsed } = verifySession
 
-    if (!verifySession || linkUsed) return  { location: '/verify/used' };
+    if (!verifySession || linkUsed) return  { location: '/verify/expired' };
  
     await db.set({ ...verifySession, table: 'session', key: token, linkUsed: true })
     let accounts = await getAccounts()
@@ -21,7 +21,7 @@ export async function get(req) {
 
     if (!account) return { location: '/login' };
 
-    account.verified = account.verified ? {...account.verified,email:true} : {email:true}
+    account.verified = account.verified ? {...account.verified , email:true} : {email:true}
     account = await upsertAccount({ ...account })
     return {
       session: {},
