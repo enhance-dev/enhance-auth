@@ -11,8 +11,8 @@ export default function login({ html, state }) {
         <p>Found some problems!</p>
         <ul>${problems.form}</ul>
       </div>
-      <enhance-form action="/login" method="post">
-        <enhance-text-input label="Email" id="email" name="email" type="email" errors="${problems?.email?.errors}" value="${login?.email || ''}"></enhance-text-input>
+      <enhance-form action="/login/magic-link" method="post">
+        <enhance-text-input label="Email" id="email" name="email" type="email" errors="${problems?.email?.errors || ''}" value="${login?.email || ''}"></enhance-text-input>
         <enhance-submit-button style="float: right"><span slot="label">Login</span></enhance-submit-button>
     </enhance-form>
     </main>

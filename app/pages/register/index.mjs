@@ -9,7 +9,7 @@ export default function register({ html, state }) {
       <enhance-chiclet href="${githubOauthHref}" style="background-color: var(--secondary-900)">
         <span slot="label">Continue with GitHub</span>
       </enhance-chiclet>
-      <enhance-chiclet href="/register/account"  style="background-color: var(--primary-500)">
+      <enhance-chiclet href="/register/username"  style="background-color: var(--primary-500)">
         <span slot="label">Continue with Username and Password</span>
       </enhance-chiclet>
     </enhance-chiclet-container>

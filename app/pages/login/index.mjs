@@ -1,6 +1,4 @@
 export default function login({ html, state }) {
-  const problems = state.store.problems || {}
-  const login = state.store.login || {}
   const githubOauthHref = state.store.githubOauthHref || ''
   return html`
 <style>
@@ -29,24 +27,17 @@ h2:after {
       <enhance-chiclet href="${githubOauthHref}" style="background-color: var(--secondary-900)">
         <span slot="label">Login with GitHub</span>
       </enhance-chiclet>
-      <enhance-chiclet href="/login/magic-email"  style="background-color: var(--success-500)">
+      <enhance-chiclet href="/login/magic-link"  style="background-color: var(--success-500)">
         <span slot="label">Email Magic Link</span>
       </enhance-chiclet>
       <enhance-chiclet href="/login/magic-sms"  style="background-color: var(--info-500)">
-        <span slot="label">Text Magic Link</span>
+        <span slot="label">Text Magic Code</span>
+      </enhance-chiclet>
+      <enhance-chiclet href="/login/username"  style="background-color: var(--primary-500)">
+        <span slot="label">Username & Password</span>
       </enhance-chiclet>
 
-    <h2>Have a username and password?</h2>
-    <div class="${problems.form ? 'block' : 'hidden'}">
-      <p>Found some problems!</p>
-      <ul>${problems.form}</ul>
-    </div>
-    <enhance-form action="/login" method="post">
-      <enhance-text-input label="Display Name" id="displayName" name="displayName" type="text" errors="${problems?.displayName?.errors}"  value="${login?.displayName || ''}"></enhance-text-input>
-      <enhance-text-input label="Password" id="password" name="password" type="password" errors="${problems?.password?.errors}"></enhance-text-input>
-      <enhance-submit-button style="float: right"><span slot="label">Login</span></enhance-submit-button>
       <enhance-link href="/forgot">Forgot Password?</enhance-link>
-    </enhance-form>
     </enhance-chiclet-container>
   </main>
 </enhance-page-container>

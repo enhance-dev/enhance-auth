@@ -2,11 +2,11 @@ const isLocal = process.env.ARC_ENV === 'testing'
 const useMock = !process.env.OAUTH_CLIENT_ID || !process.env.OAUTH_CLIENT_SECRET
 const domain = process.env.DOMAIN_NAME || 'http://localhost:3333'
 const urls = {
-  authorizeUrl: `${domain}/auth/_mock/login`,
-  codeUrl: `${domain}/auth/_mock/code`,
-  redirectUrl: `${domain}/login/github`,
-  tokenUrl: `${domain}/auth/_mock/token`,
-  userInfoUrl: `${domain}/auth/_mock/user`,
+  authorizeUrl: `${domain}/_mock-oauth/login`,
+  codeUrl: `${domain}/_mock-oauth/code`,
+  redirectUrl: `${domain}/login/oauth/github`,
+  tokenUrl: `${domain}/_mock-oauth/token`,
+  userInfoUrl: `${domain}/_mock-oauth/user`,
 }
 
 const mockProviderAccounts = [

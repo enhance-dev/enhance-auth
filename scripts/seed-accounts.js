@@ -4,6 +4,7 @@ async function main() {
     table: 'accounts',
     key: 'u1',
     displayName: 'jane',
+    username: 'jane',
     /*password is 'a'*/
     password: '$2a$10$bkNIj7oU2Ol75a0dmpSMweu9UrwT/OPhS7wxTDhaHMnsPlMp7eDw.',
     email: 'admin@example.com',
@@ -17,6 +18,7 @@ async function main() {
     table: 'accounts',
     key: 'u2',
     displayName: 'jsmith',
+    username: 'jsmith',
     /*password is 'secret'*/
     password: '$2a$10$fVqCPIoGWaxEZ.tX73tICOenx9Zh9qvDgrq/mNgbZuxxemFaNTi/G',
     email: 'member@example.com',

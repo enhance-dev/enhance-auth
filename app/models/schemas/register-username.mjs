@@ -1,9 +1,15 @@
-export const Register = {
-  "id": "Register",
+export const RegisterUsername= {
+  "id": "RegisterUsername",
   "type": "object",
   "additionalProperties": false,
+  "required": ['displayName', 'username', 'password', 'confirmPassword'],
   "properties": {
     "displayName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_\-]*$",
+      "maxLength": 30
+    },
+    "username": {
       "type": "string",
       "pattern": "^[a-zA-Z0-9_\-]*$",
       "maxLength": 30
@@ -40,9 +46,5 @@ export const Register = {
         }
       ]
     }
-  },
-  "dependentRequired": {
-    "displayName": ["password"],
-    "password": ["displayName","confirmPassword"]
   },
 }

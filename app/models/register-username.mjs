@@ -1,10 +1,10 @@
 import { validator } from '@begin/validator'
-import { Register } from './schemas/register.mjs'
+import { RegisterUsername } from './schemas/register-username.mjs'
 import { getAccounts } from '../models/accounts.mjs'
 
 const validate = {
   shared(req) {
-    return validator(req, Register)
+    return validator(req, RegisterUsername)
   },
   async create(req) {
     let { valid, problems, data } = validate.shared(req)
