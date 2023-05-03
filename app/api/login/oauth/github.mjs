@@ -7,24 +7,22 @@ let urls
 if (isLocal && useMock) {
   urls = {
     authorizeUrl: `${domain}/_mock-oauth/login`,
-    redirectUrl: `${domain}/login/oauth/github`,
+    redirectUrl: `${domain}/oauth`,
     tokenUrl: `${domain}/_mock-oauth/token`,
     userInfoUrl: `${domain}/_mock-oauth/user`,
   }
 } else {
   urls = {
     authorizeUrl: process.env.OAUTH_AUTHORIZE_URL,
-    redirectUrl: `${domain}/login/oauth/github`,
+    redirectUrl: `${domain}/oauth`,
     tokenUrl: process.env.OAUTH_TOKEN_URL,
     userInfoUrl: process.env.OAUTH_USERINFO_URL,
   }
 }
 
 export async function get(req) {
-  console.log('github login session',req.session)
   const { afterAuthRedirect = '' } = req.session
   const { query: { code, state } } = req
-  console.log('query',req.query)
 
 
   if (!code){
@@ -42,7 +40,6 @@ export async function get(req) {
       }
     // eslint-disable-next-line no-empty
     } catch (e) { }
-    console.log('state',state)
     const redirect = redirectAfterAuth || afterAuthRedirect || '/'
     try {
       const oauthAccount = await oauth(code)
@@ -51,9 +48,6 @@ export async function get(req) {
       const appUser = accounts.find(a => a.provider?.github?.login === oauthAccount?.oauth?.github?.login)
       const { password: removePassword, ...sanitizedAccount } = appUser || {}
       const accountVerified = appUser?.verified?.phone || appUser?.verified?.email
-      console.log({appUser})
-      console.log({oauthAccount})
-      console.log({accountVerified})
 
       if (!appUser) {
         return {

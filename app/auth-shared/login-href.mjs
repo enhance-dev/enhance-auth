@@ -5,12 +5,12 @@ let urls
 if (isLocal && useMock) {
   urls = {
     authorizeUrl: `${domain}/_mock-oauth/login`,
-    redirectUrl: `${domain}/login/oauth/github`,
+    redirectUrl: `${domain}/oauth`,
   }
 } else {
   urls = {
     authorizeUrl: process.env.OAUTH_AUTHORIZE_URL,
-    redirectUrl: `${domain}/login/oauth/github`,
+    redirectUrl: `${domain}/oauth`,
   }
 }
 export default function loginHref({ redirectAfterAuth = '/', newRegistration = '' }) {

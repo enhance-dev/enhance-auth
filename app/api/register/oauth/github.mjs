@@ -8,14 +8,14 @@ let urls
 if (isLocal && useMock) {
   urls = {
     authorizeUrl: `${domain}/_mock-oauth/login`,
-    redirectUrl: `${domain}/register/oauth/github`,
+    redirectUrl: `${domain}/oauth`,
     tokenUrl: `${domain}/_mock-oauth/token`,
     userInfoUrl: `${domain}/_mock-oauth/user`,
   }
 } else {
   urls = {
     authorizeUrl: process.env.OAUTH_AUTHORIZE_URL,
-    redirectUrl: `${domain}/register/oauth/github`,
+    redirectUrl: `${domain}/oauth`,
     tokenUrl: process.env.OAUTH_TOKEN_URL,
     userInfoUrl: process.env.OAUTH_USERINFO_URL,
   }
