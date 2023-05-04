@@ -44,8 +44,9 @@ export async function post(req) {
       service = await client.verify.v2.services.create({
         friendlyName: 'My Verify Service',
       });
+      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : `+1${phone.replace('-','')}`
       await client.verify.v2.services(service.sid).verifications.create({
-        to: isLocal ? process.env.SMS_TEST_PHONE : phone,
+        to: toPhone,
         channel: 'sms',
       });
       if (!process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
@@ -70,9 +71,11 @@ export async function post(req) {
     let verification, status
     if (requiredEnvs){
       const client = twilio(accountSid, authToken)
+
+      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : `+1${phone.replace('-','')}`
       verification= await client.verify.v2
         .services(serviceSid)
-        .verificationChecks.create({ to: process.env.SMS_TEST_PHONE, code: otpCode })
+        .verificationChecks.create({ to: toPhone , code: otpCode })
       status = verification.status
     } else {
       console.log('Missing required environment variables')

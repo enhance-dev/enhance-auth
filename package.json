@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "enhance dev",
-    "lint": "eslint ./**/*.mjs --fix"
+    "lint": "eslint app/**/*.mjs --fix"
   },
   "devDependencies": {
     "@enhance/cli": "^0.0.7",

@@ -1,4 +1,5 @@
 import db from '@begin/data'
+import crypto from 'crypto'
 import sgMail from '@sendgrid/mail'
 import twilio from "twilio"
 import { getAccount, upsertAccount } from "../../models/accounts.mjs"
@@ -35,15 +36,19 @@ export async function get(req){
 
       let service
       if (requiredEnvs){
-        const client = twilio(accountSid, authToken)
-        service = await client.verify.v2.services.create({
-          friendlyName: 'My Verify Service',
-        });
-        await client.verify.v2.services(service.sid).verifications.create({
-          to: isLocal ? process.env.SMS_TEST_PHONE : phone,
-          channel: 'sms',
-        });
-        if (!process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
+        try {
+          const client = twilio(accountSid, authToken)
+          service = await client.verify.v2.services.create({
+            friendlyName: 'My Verify Service',
+          });
+
+          const toPhone = isLocal ? process.env.SMS_TEST_PHONE : `+1${phone.replace('-','')}`
+          await client.verify.v2.services(service.sid).verifications.create({
+            to: toPhone,
+            channel: 'sms',
+          });
+          if (!process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
+        } catch(e){ console.log(e) }
       } else {
         console.log('Missing required environment variables')
         if (isLocal){
@@ -51,6 +56,7 @@ export async function get(req){
           service = {sid:'simulated-testing'}
         } 
       }
+
       const newSession = { ...req.session }
       newSession.smsVerify = {otp:{ serviceSid: service.sid }}
 

@@ -32,7 +32,7 @@ export async function get(req) {
       let { problems, register, ...newSession } = session
       return {
         session: newSession,
-        json: { problems, register}
+        json: { problems, register, oauthAccount:!!oauthAccount}
       }
     }
     return {
@@ -153,8 +153,8 @@ async function oauth(code) {
     }
   })
 
-  const providerUser = userResult.body
+  const {login, ...rest} = userResult.body
   return {
-    oauth: { github: providerUser }
+    oauth: { github: {login} }
   }
 }

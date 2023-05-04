@@ -99,8 +99,8 @@ async function oauth(code) {
     }
   })
 
-  const providerUser = userResult.body
+  const {login, ...rest} = userResult.body
   return {
-    oauth: { github: providerUser }
+    oauth: { github: {login} }
   }
 }
