@@ -36,7 +36,7 @@ export async function post(req) {
   try {
     delete register.confirmPassword
     register.password = bcrypt.hashSync(register.password, 10)
-    register.authConfig = { mfa:{ enabled:false, type:'sms' }, loginAllowed: ['password', 'email-link', 'sms-code'] }
+    register.authConfig = { loginAllowed: ['password', 'email-link', 'sms-code'] }
     register.scopes = ['member']
     // eslint-disable-next-line no-unused-vars
     const { password: removePassword, ...newAccount } = await upsertAccount(register)

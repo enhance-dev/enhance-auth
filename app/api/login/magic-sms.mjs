@@ -52,7 +52,7 @@ export async function post(req) {
 
     let service
     if (requiredEnvs){
-      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : phone
+      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : '+1'+phone.replace('-','')
       const client = twilio(accountSid, authToken)
       service = await client.verify.v2.services.create({
         friendlyName: 'Enhance Auth Demo',
@@ -88,7 +88,7 @@ export async function post(req) {
 
     let verification, status
     if (requiredEnvs){
-      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : phone
+      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : '+1'+ phone.replace('-','')
       const client = twilio(accountSid, authToken)
       verification= await client.verify.v2
         .services(serviceSid)

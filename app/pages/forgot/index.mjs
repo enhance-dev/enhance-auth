@@ -19,8 +19,9 @@ export default function login({ html, state }) {
       <enhance-text-input label="Confirm Password" id="confirmPassword" name="confirmPassword" type="password" minlength=8 errors="${problems?.confirmPassword?.errors || ''}" ></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Reset Password</span></enhance-submit-button>
       ` : `
-      <p>Enter your email address and we'll send you a link to reset your password.</p>
+      <p>Enter your email address or phone number and we'll send you a link or a code to reset your password.</p>
       <enhance-text-input label="Email" id="email" name="email" type="email" error="${problems?.email?.errors}" ></enhance-text-input>
+      <enhance-text-input label="Phone Number" id="phone" name="phone" type="phone" errors="${problems?.phone?.errors || ''}" value="${reset?.phone || ''}"></enhance-text-input>
       <enhance-submit-button style="float: right"><span slot="label">Request Reset</span></enhance-submit-button>
       `}
     </enhance-form>

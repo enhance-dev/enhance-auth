@@ -112,7 +112,7 @@ export async function post(req) {
 
   try {
     register.provider = oauthAccount?.oauth
-    register.authConfig = { mfa:{ enabled:false, type:'sms' }, loginAllowed: ['oauth', 'email-link', 'sms-code'] }
+    register.authConfig = { loginAllowed: ['oauth', 'email-link', 'sms-code'] }
     register.scopes = ['member']
     // eslint-disable-next-line no-unused-vars
     const { password: removePassword, ...newAccount } = await upsertAccount(register)

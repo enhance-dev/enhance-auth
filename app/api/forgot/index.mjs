@@ -2,8 +2,8 @@ import crypto from 'crypto'
 import db from '@begin/data'
 import sgMail from '@sendgrid/mail'
 import bcrypt from 'bcryptjs'
-import { getAccounts, upsertAccount } from '../models/accounts.mjs'
-import { validate } from '../models/forgot.mjs'
+import { getAccounts, upsertAccount } from '../../models/accounts.mjs'
+import { validate } from '../../models/forgot.mjs'
 
 export async function get(req) {
   const token = req.query?.token
