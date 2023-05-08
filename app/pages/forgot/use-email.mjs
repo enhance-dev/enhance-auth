@@ -10,7 +10,7 @@ export default function login({ html, state }) {
       <p>Found some problems!</p>
       <ul>${problems.form}</ul>
     </div>
-    <enhance-form action="/forgot" method="post">
+    <enhance-form action="/forgot/use-email" method="post">
       ${linkUsed || linkInvalid ? `<p>The link has expired or is invalid. Request a new link below.</p>` : ''}
 
       ${resetPassword ? `
