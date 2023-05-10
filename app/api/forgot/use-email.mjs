@@ -50,16 +50,16 @@ export async function post(req) {
   // if email is posted generate a reset link
   if (email) {
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.email === email)
+    const account = accounts.find(a => a.email === email && a.verified.email && a.authConfig?.loginAllowed.includes('username'))
     if (account) {
       const { redirectAfterAuth = '/' } = session
 
       await sendEmailLink({ email, subject:'Password Reset Link', redirectAfterAuth, linkPath:'/forgot/use-email' })
+    }
 
-      return {
-        session: {},
-        location: '/forgot/link-sent'
-      }
+    return {
+      session: {},
+      location: '/forgot/link-sent'
     }
 
   } else if (resetPassword && password && confirmPassword) {
@@ -78,8 +78,9 @@ export async function post(req) {
     if (account) {
       const verifySession = await db.get({ table: 'session', key: token })
       const { linkUsed = false } = verifySession
+      const linkExpired = verifySession?.ttl < Date.now()
       // Valid Link Unused
-      if (verifySession && !linkUsed) {
+      if (verifySession && !linkUsed || !linkExpired) {
         await db.set({ ...verifySession, table: 'session', key: token, linkUsed: true })
         if (verifySession.email === resetEmail) {
           const hash = bcrypt.hashSync(newPassword, 10)

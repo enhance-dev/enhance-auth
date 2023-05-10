@@ -1,9 +1,5 @@
-import twilio from "twilio"
+import {sendCode, verifyCode} from '../../auth-shared/sms-code-verify.mjs'
 import { getAccounts } from "../../models/accounts.mjs"
-const accountSid = process.env.TWILIO_API_ACCOUNT_SID
-const authToken = process.env.TWILIO_API_TOKEN
-const isLocal = process.env.ARC_ENV === 'testing'
-const requiredEnvs = (process.env.TWILIO_API_ACCOUNT_SID && process.env.TWILIO_API_TOKEN)
 
 export async function get(req) {
   const { smsCodeLogin } = req.session
@@ -50,29 +46,10 @@ export async function post(req) {
       }
     }
 
-    let service
-    if (requiredEnvs){
-      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : '+1'+phone.replace('-','')
-      const client = twilio(accountSid, authToken)
-      service = await client.verify.v2.services.create({
-        friendlyName: 'Enhance Auth Demo',
-      });
-      await client.verify.v2.services(service.sid).verifications.create({
-        to: toPhone, 
-        channel: 'sms',
-      }); 
-
-      if (!process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
-    } else {
-      console.log('Missing required environment variables')
-      if (isLocal){
-        console.log('Use similated One Time Password "123456" for testing')
-        service = {sid:'simulated-testing'}
-      } 
-    }
+    const serviceSid = sendCode({phone, friendlyName:'Enhance Auth Login Code'})
 
     let newSession = { ...req.session }
-    newSession.smsCodeLogin = {...smsCodeLogin, serviceSid: service.sid }
+    newSession.smsCodeLogin = {...smsCodeLogin, serviceSid }
     newSession.smsCodeLogin.phone=phone
     const { password: removePassword, ...sanitizedAccount } = account
     newSession.smsCodeLogin.account=sanitizedAccount
@@ -84,21 +61,7 @@ export async function post(req) {
   } 
 
   if (smsCode) {
-    const { serviceSid } = smsCodeLogin
-
-    let verification, status
-    if (requiredEnvs){
-      const toPhone = isLocal ? process.env.SMS_TEST_PHONE : '+1'+ phone.replace('-','')
-      const client = twilio(accountSid, authToken)
-      verification= await client.verify.v2
-        .services(serviceSid)
-        .verificationChecks.create({ to: toPhone, code: smsCode })
-      status = verification.status
-    } else {
-      console.log('Missing required environment variables')
-      if (isLocal){ status = smsCode === '123456' ? 'approved' : false } 
-    }
-
+    const status = verifyCode({phone, serviceSid:smsCodeLogin.serviceSid, smsCode})
     if (status === 'approved') {
       let { smsCodeLogin, redirectAfterAuth='/', ...newSession } = req.session
       let { account } = smsCodeLogin

@@ -9,8 +9,9 @@ export default async function sendLink({ email, subject='', text, html, linkPath
   const verifyToken = crypto.randomBytes(32).toString('base64')
   const link = `${domain}${linkPath}?token=${encodeURIComponent(verifyToken)}`
 
+  const ttl = Date.now() + 60*60*1000
   await db.set({ table: 'session', key: verifyToken, verifyToken, 
-    email, redirectAfterAuth, newRegistration, linkUsed:false})
+    email, redirectAfterAuth, newRegistration, linkUsed:false, ttl})
 
 
   // Local Development Testing Setup

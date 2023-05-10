@@ -1,12 +1,3 @@
-import db from '@begin/data'
-import crypto from 'crypto'
-import sgMail from '@sendgrid/mail'
-import twilio from "twilio"
-import { getAccount, upsertAccount } from "../../models/accounts.mjs"
-const accountSid = process.env.TWILIO_API_ACCOUNT_SID
-const authToken = process.env.TWILIO_API_TOKEN
-const isLocal = process.env.ARC_ENV === 'testing'
-const requiredEnvs = (process.env.TWILIO_API_ACCOUNT_SID && process.env.TWILIO_API_TOKEN)
 
 export async function get(req){
   const session = req.session
@@ -21,8 +12,7 @@ export async function get(req){
     const verifyEmail = email && !emailVerified
     if (verifyEmail){
       // send verification link
-      const verifyToken = crypto.randomBytes(32).toString('base64')
-      await sendLink({ verifyToken, email, redirectAfterAuth })
+      await sendLink({ email, redirectAfterAuth, subject:'Enhance Auth Verify Email Link', linkPath:'/verify/email' })
       if (!verifyPhone){
         return {
           session: {},
@@ -34,31 +24,10 @@ export async function get(req){
       // send SMS code 
       const { smsVerify, unverified, authorized} = req.session
 
-      let service
-      if (requiredEnvs){
-        try {
-          const client = twilio(accountSid, authToken)
-          service = await client.verify.v2.services.create({
-            friendlyName: 'My Verify Service',
-          });
-
-          const toPhone = isLocal ? process.env.SMS_TEST_PHONE : `+1${phone.replace('-','')}`
-          await client.verify.v2.services(service.sid).verifications.create({
-            to: toPhone,
-            channel: 'sms',
-          });
-          if (!process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
-        } catch(e){ console.log(e) }
-      } else {
-        console.log('Missing required environment variables')
-        if (isLocal){
-          console.log('Use similated One Time Password "123456" for testing')
-          service = {sid:'simulated-testing'}
-        } 
-      }
+      const serviceSid = sendCode({phone, friendlyName:'Enhance Auth Verify Phone'})
 
       const newSession = { ...req.session }
-      newSession.smsVerify = {otp:{ serviceSid: service.sid }}
+      newSession.smsVerify = {otp:{ serviceSid }}
 
       return {
         session: newSession,
@@ -79,34 +48,3 @@ export async function get(req){
   }
 }
 
-async function sendLink({ verifyToken, email, redirectAfterAuth = '/', newRegistration = false }){
-  const isLocal = process.env.ARC_ENV === 'testing'
-  const requiredEnvs = process.env.TRANSACTION_SEND_EMAIL && process.env.SENDGRID_API_KEY
-  const domain = process.env.DOMAIN_NAME || 'http://localhost:3333'
-
-  await db.set({ table: 'session', key: verifyToken, verifyToken, email, redirectAfterAuth, newRegistration })
-
-  if (isLocal) {
-    console.log('Verify Email Link: ', `${domain}/verify/email?token=${encodeURIComponent(verifyToken)}`)
-  }
-
-  if (requiredEnvs) {
-    let toEmail = email
-    if (isLocal) toEmail = process.env.TRANSACTION_SEND_EMAIL; 
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-    const msg = {
-      to: toEmail,
-      from: `${process.env.TRANSACTION_SEND_EMAIL}`,
-      subject: 'Enhance Authentication Example Login',
-      text: `Here is your link to login to the Enhance authentication example app ${domain}/verify/email?token=${encodeURIComponent(verifyToken)}`
-      //html: '<strong>This is HTML</strong>',
-    }
-    try {
-      await sgMail.send(msg)
-    } catch (e) {
-      console.error(e)
-    }
-  } else {
-    console.log('TRANSACTION_SEND_EMAIL and SENDGRID_API_KEY needed to send')
-  }
-}
