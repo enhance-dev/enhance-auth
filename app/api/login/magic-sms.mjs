@@ -37,7 +37,8 @@ export async function post(req) {
   }
   if (phone) {
     const accounts = await getAccounts()
-    const account = accounts.find(a=>a.verified.phone && a.phone===phone  && a.authConfig?.loginAllowed?.includes('sms-code'))
+    const account = accounts.find(a=>a.verified.phone && a.phone===phone  && 
+      a.authConfig?.loginWith?.phone)
     if (!account) {
       // To avoid inumeration of phone numbers
       return {

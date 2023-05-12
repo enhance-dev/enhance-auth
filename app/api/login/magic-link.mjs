@@ -25,7 +25,8 @@ export async function get(req) {
     let accounts, account
     try {
       accounts = await getAccounts()
-      account = accounts.find(i => i.email === verifySession.email && i.authConfig?.loginAllowed?.includes('email-link'))
+      account = accounts.find(i => i.email === verifySession.email && 
+        i.authConfig?.loginWith?.email)
     }
     catch (e) {
       console.log(e)
@@ -66,7 +67,8 @@ export async function post(req) {
 
   if (email) {
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.email === email && a.verified?.email && a.authConfig?.loginAllowed?.includes('email-link'))
+    const account = accounts.find(a => a.email === email && a.verified?.email && 
+      a.authConfig?.loginWith?.email)
     if (account) { 
       await sendLink({ email, subject:'Enhance Auth Login Link', linkPath:'/login/magic-link', redirectAfterAuth })
     }

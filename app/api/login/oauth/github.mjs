@@ -28,7 +28,7 @@ export async function get(req) {
       const accounts = await getAccounts()
       const appUser = accounts.find(a => 
         a.provider?.github?.login === oauthAccount?.oauth?.github?.login && 
-        a.authConfig?.loginAllowed?.includes('github')
+        a.authConfig?.loginWith?.github
       )
       const { password: removePassword, ...sanitizedAccount } = appUser || {}
       const accountVerified = appUser?.verified?.phone || appUser?.verified?.email

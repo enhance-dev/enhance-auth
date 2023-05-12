@@ -93,7 +93,7 @@ export async function post(req) {
 
   try {
     register.provider = oauthAccount?.oauth
-    register.authConfig = { loginAllowed: ['github', 'email-link', 'sms-code'] }
+    register.authConfig = { loginWith: {github:true, email:true, phone:true} }
     register.scopes = ['member']
     // eslint-disable-next-line no-unused-vars
     const { password: removePassword, ...newAccount } = await upsertAccount(register)

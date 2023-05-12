@@ -1,12 +1,6 @@
-// View documentation at: https://enhance.dev/docs/learn/starter-project/api
-/**
-  * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
-  */
 import { getAccounts, upsertAccount, validate } from '../../models/accounts.mjs'
+import bcrypt from 'bcryptjs'
 
-/**
- * @type {EnhanceApiFn}
- */
 export async function get(req) {
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
@@ -33,11 +27,7 @@ export async function get(req) {
   }
 }
 
-/**
- * @type {EnhanceApiFn}
- */
 export async function post(req) {
-  console.log(req)
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
   const scopes = authorized?.scopes
@@ -51,10 +41,10 @@ export async function post(req) {
 
   // Validate
   let { problems, account } = await validate.create(req)
+  let { password:removedPassword, confirmPassword:removedConfirm, ...sanitizedAccount } = account
   if (problems) {
     return {
-      session: { ...session, problems, account },
-      json: { problems, account },
+      session: { ...session, problems, account:sanitizedAccount },
       location: '/accounts'
     }
   }
@@ -62,17 +52,19 @@ export async function post(req) {
   // eslint-disable-next-line no-unused-vars
   let { problems: removedProblems, account: removed, ...newSession } = session
   try {
-    const result = await upsertAccount(account)
+    delete account.confirmPassword
+    account.password = bcrypt.hashSync(account.password, 10)
+    // eslint-disable-next-line no-unused-vars
+    const { password: removePassword, ...newAccount } = await upsertAccount(account)
+
     return {
       session: newSession,
-      json: { account: result },
       location: '/accounts'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
-      json: { error: err.message },
       location: '/accounts'
     }
   }

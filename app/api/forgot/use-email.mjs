@@ -50,7 +50,8 @@ export async function post(req) {
   // if email is posted generate a reset link
   if (email) {
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.email === email && a.verified.email && a.authConfig?.loginAllowed.includes('username'))
+    const account = accounts.find(a => a.email === email && a.verified.email && 
+      a.authConfig?.loginWith?.username)
     if (account) {
       const { redirectAfterAuth = '/' } = session
 

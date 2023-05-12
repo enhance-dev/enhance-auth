@@ -1,12 +1,6 @@
-// View documentation at: https://enhance.dev/docs/learn/starter-project/api
-/**
-  * @typedef {import('@enhance/types').EnhanceApiFn} EnhanceApiFn
-  */
 import { getAccount, upsertAccount, validate } from '../../models/accounts.mjs'
+import bcrypt from 'bcryptjs'
 
-/**
- * @type {EnhanceApiFn}
- */
 export async function get (req) {
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
@@ -29,14 +23,12 @@ export async function get (req) {
 
   const id = req.pathParameters?.id
   const result = await getAccount(id)
+  const {password:_, ...sanitizedAccount} = result
   return {
-    json: { account: result }
+    json: { account: sanitizedAccount }
   }
 }
 
-/**
- * @type {EnhanceApiFn}
- */
 export async function post (req) {
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
@@ -52,11 +44,12 @@ export async function post (req) {
   const id = req.pathParameters?.id
 
   // Validate
+
   let { problems, account } = await validate.update(req)
   if (problems) {
+    const {password:_, ...sanitizedAccount} = account
     return {
-      session: {...session, problems, account },
-      json: { problems, account },
+      session: {...session, problems, account:sanitizedAccount },
       location: `/accounts/${account.key}`
     }
   }
@@ -64,17 +57,23 @@ export async function post (req) {
   // eslint-disable-next-line no-unused-vars
   let { problems: removedProblems, account: removed, ...newSession } = session
   try {
-    const result = await upsertAccount({ key: id, ...account })
+    delete account.confirmPassword
+    if (account.updatePassword){
+      account.password = bcrypt.hashSync(account.password, 10)
+    } else {
+      const oldAccount = await getAccount(id)
+      account.password = oldAccount.password
+    }
+    if (account.password==='') delete account.password
+    await upsertAccount({ key: id, ...account })
     return {
       session: newSession,
-      json: { account: result },
       location: '/accounts'
     }
   }
   catch (err) {
     return {
       session: { ...newSession, error: err.message },
-      json: { error: err.message },
       location: '/accounts'
     }
   }

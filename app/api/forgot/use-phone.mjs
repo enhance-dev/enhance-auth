@@ -48,7 +48,7 @@ export async function post(req) {
   if (phone) {
     const accounts = await getAccounts()
     const account = accounts.find(a=>a.verified.phone && a.phone===phone 
-      && a.authConfig?.loginAllowed?.includes('username'))
+      && a.authConfig?.loginWith?.username)
     if (!account) {
       // To avoid inumeration of phone numbers
       return {
@@ -103,7 +103,7 @@ export async function post(req) {
     }
     const accounts = await getAccounts()
     const account = accounts.find(a => a.phone === resetPhone && a.verified.phone 
-    && a.authConfig?.loginAllowed?.includes('username'))
+    && a.authConfig?.loginWith?.username)
     if (account) {
       const hash = bcrypt.hashSync(newPassword, 10)
       await upsertAccount({ ...account, password: hash })
