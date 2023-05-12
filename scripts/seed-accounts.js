@@ -11,8 +11,8 @@ async function main() {
     verified: { email: true, phone: true },
     phone: '123-123-1234',
     scopes: ['admin', 'member'],
-    authConfig: { loginAllowed:['password','email-link','sms-code'] },
-    provider: { github: { login: 'janedoe' }, google: { email: 'admin@example.com' } },
+    authConfig: { loginAllowed:['username','email-link','sms-code', 'github'] },
+    provider: { github: { login: 'janedoe' } },
   })
   await db.set({
     table: 'accounts',
@@ -25,8 +25,8 @@ async function main() {
     verified: { email: true, phone: true },
     phone: '123-555-1234',
     scopes: ['member'],
-    authConfig: {  loginAllowed:['password'] },
-    provider: { github: { login: 'johnsmith' }, google: { email: 'member@example.com' } },
+    authConfig: { loginAllowed:['username','email-link','sms-code', 'github'] },
+    provider: { github: { login: 'johnsmith' } },
   })
 
 }

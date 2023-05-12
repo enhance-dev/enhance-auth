@@ -41,7 +41,7 @@ export async function post(req) {
   }
 
   let accounts = await getAccounts()
-  const account = accounts.find(a => a.username === username && a.authConfig?.loginAllowed?.includes('password'))
+  const account = accounts.find(a => a.username === username && a.authConfig?.loginAllowed?.includes('username'))
   const match = account ? bcrypt.compareSync(password, account?.password) : false
   const accountVerified = match ? !!(account.verified?.email || account.verified?.phone) : false
   const { password: removePassword, ...sanitizedAccount } = account || {}

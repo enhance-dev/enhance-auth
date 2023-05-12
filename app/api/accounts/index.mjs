@@ -37,6 +37,7 @@ export async function get(req) {
  * @type {EnhanceApiFn}
  */
 export async function post(req) {
+  console.log(req)
   const session = req.session
   const authorized = session?.authorized ? session?.authorized : false
   const scopes = authorized?.scopes

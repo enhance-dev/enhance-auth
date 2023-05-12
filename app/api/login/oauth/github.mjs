@@ -26,7 +26,10 @@ export async function get(req) {
       const oauthAccount = await verifyOauth(code)
       if (!oauthAccount.oauth.github) throw Error('user not found')
       const accounts = await getAccounts()
-      const appUser = accounts.find(a => a.provider?.github?.login === oauthAccount?.oauth?.github?.login)
+      const appUser = accounts.find(a => 
+        a.provider?.github?.login === oauthAccount?.oauth?.github?.login && 
+        a.authConfig?.loginAllowed?.includes('github')
+      )
       const { password: removePassword, ...sanitizedAccount } = appUser || {}
       const accountVerified = appUser?.verified?.phone || appUser?.verified?.email
 

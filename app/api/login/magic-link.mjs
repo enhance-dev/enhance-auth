@@ -1,4 +1,4 @@
-import { sendLink } from '../../auth-shared/send-email-link.mjs'
+import sendLink from '../../auth-shared/send-email-link.mjs'
 import db from '@begin/data'
 import { getAccounts } from '../../models/accounts.mjs'
 

@@ -46,7 +46,7 @@ export async function post(req) {
       }
     }
 
-    const serviceSid = sendCode({phone, friendlyName:'Enhance Auth Login Code'})
+    const serviceSid = await sendCode({phone, friendlyName:'Enhance Auth Login Code'})
 
     let newSession = { ...req.session }
     newSession.smsCodeLogin = {...smsCodeLogin, serviceSid }
@@ -61,7 +61,7 @@ export async function post(req) {
   } 
 
   if (smsCode) {
-    const status = verifyCode({phone, serviceSid:smsCodeLogin.serviceSid, smsCode})
+    const status = await verifyCode({phone, serviceSid:smsCodeLogin.serviceSid, smsCode})
     if (status === 'approved') {
       let { smsCodeLogin, redirectAfterAuth='/', ...newSession } = req.session
       let { account } = smsCodeLogin

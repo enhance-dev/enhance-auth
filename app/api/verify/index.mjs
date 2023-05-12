@@ -1,3 +1,5 @@
+import {sendCode} from '../../auth-shared/sms-code-verify.mjs'
+import sendLink from '../../auth-shared/send-email-link.mjs'
 
 export async function get(req){
   const session = req.session
@@ -15,7 +17,7 @@ export async function get(req){
       await sendLink({ email, redirectAfterAuth, subject:'Enhance Auth Verify Email Link', linkPath:'/verify/email' })
       if (!verifyPhone){
         return {
-          session: {},
+          session: newSession,
           location: '/verify/waiting-email'
         }
       }
@@ -24,7 +26,7 @@ export async function get(req){
       // send SMS code 
       const { smsVerify, unverified, authorized} = req.session
 
-      const serviceSid = sendCode({phone, friendlyName:'Enhance Auth Verify Phone'})
+      const serviceSid = await sendCode({phone, friendlyName:'Enhance Auth Verify Phone'})
 
       const newSession = { ...req.session }
       newSession.smsVerify = {otp:{ serviceSid }}

@@ -74,7 +74,7 @@ export async function post(req) {
     const token = resetPassword.token
 
     const accounts = await getAccounts()
-    const account = accounts.find(a => a.email === resetEmail)
+    const account = accounts.find(a => a.email === resetEmail && a.verified?.email)
     if (account) {
       const verifySession = await db.get({ table: 'session', key: token })
       const { linkUsed = false } = verifySession

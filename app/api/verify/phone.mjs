@@ -1,4 +1,4 @@
-import { sendCode } from "../../auth-shared/sms-code-verify.mjs"
+import { sendCode, verifyCode } from "../../auth-shared/sms-code-verify.mjs"
 import { getAccount, upsertAccount } from "../../models/accounts.mjs"
 
 export async function get(req) {
@@ -31,7 +31,7 @@ export async function post(req) {
 
   if (request && phone) {
 
-    const serviceSid = sendCode({phone, friendlyName:'Enhance Auth Verify Phone'})
+    const serviceSid = await  sendCode({phone, friendlyName:'Enhance Auth Verify Phone'})
     const newSession = { ...req.session }
     newSession.smsVerify = {otp:{ serviceSid }}
 
@@ -43,7 +43,7 @@ export async function post(req) {
   if (otpCode) {
     const { serviceSid } = otp
 
-    const status = verifyCode({phone, serviceSid, smsCode:otpCode})
+    const status = await verifyCode({phone, serviceSid, smsCode:otpCode})
 
     if (status === 'approved') {
       let { smsVerify, unverified, authorized, ...newSession } = req.session
