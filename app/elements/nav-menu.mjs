@@ -1,38 +1,54 @@
 export default function NavMenu({ state, html }) {
   const { authorized = {} } = state.store
-  const permissions = authorized.scopes
-  return html`
-<nav class="mb0 flex flex-row justify-content-between align-items-center">
-  <ul class="list-none flex flex-row align-items-center">
-    <li>
-      <enhance-link href='/'><strong>example.com</strong></enhance-link>
-    </li>
-  </ul>
-  <ul class="list-none flex flex-row align-items-center gap-2">
-    ${permissions?.includes('admin') ? `
-    <li>
-      <enhance-link href="/accounts">Accounts</enhance-link>
-    </li>
-    ` : '' }
-    ${!permissions ? `
-    <li>
-      <enhance-link href="/register">Sign-up</enhance-link>
-    </li>
-    <li class="mi-1">
-      <enhance-link-button href="/login">
-        Log In
-      </enhance-link-button>
-    </li>
-    ` : '' }
-    ${permissions ? `
-    <form action=/logout method=post>
-      <li>
+  const loggedIn = authorized.scopes
+  const loggedOut = !loggedIn
+  const admin = authorized?.scopes?.includes('admin')
+  const logoutLinks = loggedIn
+    ? `<form action=/logout method=post>
         <enhance-submit-button>
           <span slot="label">Logout</span>
         </enhance-submit-button>
-      </li>
-    </form>
-    ` : '' }
+      </form>`
+    : ''
+  const adminLink =  admin
+    ? `<enhance-link href="/accounts">Accounts</enhance-link>`
+    : ''
+  const loginLinks = loggedOut
+    ? `<div
+         class="
+           flex
+           align-items-center
+           justify-content-between
+         "
+       >
+         <enhance-link
+           class="
+             mi-1
+             whitespace-no-wrap
+           "
+           href="/register"
+         >
+           Sign-up
+         </enhance-link>
+         <enhance-link-button href="/login">
+           Login
+         </enhance-link-button>
+       </div>
+      `
+    : ''
+  return html`
+    <nav
+      class="
+       flex
+       flex-row
+       justify-content-between
+       align-items-center
+      "
+    >
+      <enhance-link class="font-bold" href='/'>example.com</enhance-link>
+    ${adminLink}
+    ${loginLinks}
+    ${logoutLinks}
   </ul>
 </nav>
 `

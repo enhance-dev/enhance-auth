@@ -13,7 +13,7 @@ export default function login({ html, state }) {
     <enhance-form action="/forgot/use-email" method="post">
       <p>Enter your email address or phone number and we'll send you a link or a code to reset your password.</p>
       <enhance-text-input label="Email" id="email" name="email" type="email" error="${problems?.email?.errors}" value="${forgot?.email || ''}"></enhance-text-input>
-      <enhance-submit-button style="float: right"><span slot="label">Request Reset</span></enhance-submit-button>
+      <enhance-submit-button ><span slot="label">Request Reset</span></enhance-submit-button>
     </enhance-form>
     <enhance-form action="/forgot/use-phone" method="post">
       <enhance-text-input label="Phone Number" id="phone" name="phone" type="phone" errors="${problems?.phone?.errors || ''}" value="${forgot?.phone || ''}"></enhance-text-input>
