@@ -46,10 +46,9 @@ export default function NavMenu({ state, html }) {
       "
     >
       <enhance-link class="font-bold" href='/'>example.com</enhance-link>
-    ${adminLink}
-    ${loginLinks}
-    ${logoutLinks}
-  </ul>
-</nav>
+      ${adminLink}
+      ${loginLinks}
+      ${logoutLinks}
+    </nav>
 `
 }

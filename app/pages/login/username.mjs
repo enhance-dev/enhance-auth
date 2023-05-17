@@ -3,7 +3,7 @@ export default function login({ html, state }) {
   const login = state.store.login || {}
   return html`
 <enhance-page-container>
-  <nav-menu></nav-menu>
+  <focus-nav href="/login"></focus-nav>
   <main>
     <h1 class="mb1 font-semibold text3">
       Login page
