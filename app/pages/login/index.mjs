@@ -6,7 +6,7 @@ export default function login({ html, state }) {
   <main>
     <h1 class="mb1 font-semibold text2">Log In</h1>
 
-    <div class='grid gap-2'>
+    <div class="grid gap-2">
       <button-github href="${githubOauthHref}">
         Log In with GitHub
       </button-github>
