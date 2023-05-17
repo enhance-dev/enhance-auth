@@ -2,31 +2,31 @@ export default function NavMenu({ state, html }) {
   const { authorized = {} } = state.store
   const permissions = authorized.scopes
   return html`
-<nav class="flex flex-row justify-content-between align-items-center">
-  <ul class="m1 list-none flex flex-row align-items-center">
-    <li class="mi-1">
+<nav class="mb0 flex flex-row justify-content-between align-items-center">
+  <ul class="list-none flex flex-row align-items-center">
+    <li>
       <enhance-link href='/'><strong>example.com</strong></enhance-link>
     </li>
   </ul>
-  <ul class="m1 list-none flex flex-row align-items-center">
+  <ul class="list-none flex flex-row align-items-center gap-2">
     ${permissions?.includes('admin') ? `
-    <li class="mi-1">
+    <li>
       <enhance-link href="/accounts">Accounts</enhance-link>
     </li>
     ` : '' }
     ${!permissions ? `
-    <li class="mi-1">
+    <li>
       <enhance-link href="/register">Sign-up</enhance-link>
     </li>
     <li class="mi-1">
       <enhance-link-button href="/login">
-        Login
+        Log In
       </enhance-link-button>
     </li>
     ` : '' }
     ${permissions ? `
     <form action=/logout method=post>
-      <li class="mi-1">
+      <li>
         <enhance-submit-button>
           <span slot="label">Logout</span>
         </enhance-submit-button>

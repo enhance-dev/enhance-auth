@@ -5,10 +5,10 @@ export default function EnhanceLinkButton({ html, state }) {
   <style>
     :host a {
       color: var(--light);
-      background-color: var(--primary-500)
+      background-color: var(--button-background, var(--primary-500))
     }
     :host a:focus, :host a:hover {
-      background-color: var(--primary-400)
+      background-color: var(--button-hover-background, var(--primary-400))
     }
   </style>
   <a
