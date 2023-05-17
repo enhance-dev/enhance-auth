@@ -35,7 +35,12 @@ export default function login({ html, state }) {
           justify-content-between "
       >
       <enhance-submit-button><span slot="label">Login</span></enhance-submit-button>
-      <enhance-link href="/forgot">Forgot Password?</enhance-link>
+      <enhance-link
+        class="whitespace-no-wrap"
+        href="/forgot"
+      >
+        Forgot Password?
+      </enhance-link>
       </div>
     </enhance-form>
   </main>
