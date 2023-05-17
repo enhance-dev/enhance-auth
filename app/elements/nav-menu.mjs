@@ -26,12 +26,12 @@ export default function NavMenu({ state, html }) {
              mi-1
              whitespace-no-wrap
            "
-           href="/register"
+           href="/login"
          >
-           Sign-up
+           login
          </enhance-link>
-         <enhance-link-button href="/login">
-           Login
+         <enhance-link-button href="/register">
+           Get started
          </enhance-link-button>
        </div>
       `
