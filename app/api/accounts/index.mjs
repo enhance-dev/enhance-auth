@@ -23,7 +23,10 @@ export async function get(req) {
   }
 
   return {
-    json: { accounts }
+    json: {
+      authorized,
+      accounts
+    }
   }
 }
 
