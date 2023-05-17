@@ -2,26 +2,24 @@ export default function login({ html, state }) {
   const problems = state.store.problems || {}
   const login = state.store.login || {}
   return html`
+    <style>
+      /* TODO: Expose custom properties for this */
+      :host {
+        --dark: var(--secondary-300);
+      }
+    </style>
 <focus-nav class="block p0" href="/login"></focus-nav>
 <page-container>
   <main>
     <form-container>
-      <h1 class="mb1 font-semibold text2">
-        Log In
-      </h1>
+      <enhance-fieldset legend="Log in">
       <div class="${problems.form ? 'block' : 'hidden'}">
         <p>Found some problems!</p>
         <ul>${problems.form}</ul>
       </div>
-
         <enhance-form
           action="/login/username"
           method="post"
-          class="
-           border1
-           border-solid
-           radius0
-          "
         >
           <div class='grid gap-2'>
             <enhance-text-input
@@ -46,7 +44,7 @@ export default function login({ html, state }) {
                 justify-content-between
               "
             >
-              <enhance-submit-button><span slot="label">Log In</span></enhance-submit-button>
+              <enhance-submit-button><span slot="label">Log in</span></enhance-submit-button>
               <enhance-link
                 class="whitespace-no-wrap"
                 href="/forgot"
@@ -56,6 +54,7 @@ export default function login({ html, state }) {
             </div>
           </div>
         </enhance-form>
+      </enhance-fieldset>
     </form-container>
   </main>
 </page-container>
