@@ -17,7 +17,6 @@ export async function get(req){
       await sendLink({ email, redirectAfterAuth, subject:'Enhance Auth Verify Email Link', linkPath:'/verify/email' })
       if (!verifyPhone){
         return {
-          session: newSession,
           location: '/verify/waiting-email'
         }
       }
