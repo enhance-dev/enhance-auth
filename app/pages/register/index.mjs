@@ -1,8 +1,8 @@
 export default function register({ html, state }) {
   const githubOauthHref = state.store.githubOauthHref || ''
   return html`
-<page-container>
-  <nav-menu></nav-menu>
+<focus-nav href="/" class="block p0"></focus-nav>
+<form-container>
   <main>
     <form-container>
       <h1 class="mb1 font-semibold text2">Register a New Account</h1>
@@ -17,5 +17,5 @@ export default function register({ html, state }) {
       </div>
     </form-container>
   </main>
-</page-container>
+</form-container>
 `}

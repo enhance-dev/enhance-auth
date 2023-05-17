@@ -4,7 +4,7 @@ export default function FocusNav({ html, state }) {
   return html`
     <nav>
       <enhance-link href="${href}">
-        ← back
+        ← Back
       </enhance-link>
     </nav>
   `

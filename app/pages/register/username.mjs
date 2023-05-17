@@ -2,10 +2,9 @@ export default function register({ html, state }) {
   const { problems, register } = state.store
 
   return html`
-<page-container>
-  <nav-menu></nav-menu>
+<focus-nav href="/register" class="block p0"></focus-nav>
+<form-container>
   <main>
-    <form-container>
 
       <h1 class="mb1 font-semibold text2">Register a New Account</h1>
       <enhance-form action="/register/username" method="post">
@@ -79,7 +78,6 @@ export default function register({ html, state }) {
           </enhance-submit-button>
         </div>
       </enhance-form>
-    </form-container>
   </main>
-</page-container>
+</form-container>
 `}

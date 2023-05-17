@@ -1,12 +1,12 @@
 export default function login({ html, state }) {
   const githubOauthHref = state.store.githubOauthHref || ''
   return html`
-<page-container>
-  <nav-menu></nav-menu>
+<focus-nav href="/" class="block p0"></focus-nav>
+<form-container>
   <main>
     <h1 class="mb1 font-semibold text2">Log In</h1>
 
-    <div class="grid gap-2">
+    <div class="grid gap0">
       <button-github href="${githubOauthHref}">
         Log In with GitHub
       </button-github>
@@ -24,5 +24,5 @@ export default function login({ html, state }) {
     </div>
 
   </main>
-</page-container>
+</form-container>
 ` }
