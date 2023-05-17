@@ -2,8 +2,8 @@ export default function login({ html, state }) {
   const problems = state.store.problems || {}
   const login = state.store.login || {}
   return html`
+<focus-nav class="block p0" href="/login"></focus-nav>
 <page-container>
-  <focus-nav href="/login"></focus-nav>
   <main>
     <form-container>
       <h1 class="mb1 font-semibold text3">
