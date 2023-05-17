@@ -10,7 +10,7 @@ export default function GithubButton({ html, state }) {
         --button-hover-background: #444;
       }
     </style>
-    <enhance-link-button href="${href}">
+    <enhance-link-button class="text-center" href="${href}">
       <slot></slot>
     </enhance-link-button>
   `

@@ -4,7 +4,7 @@ export default function login({ html, state }) {
 <focus-nav href="/" class="block p0"></focus-nav>
 <form-container>
   <main>
-    <h1 class="mb1 font-semibold text2">Log In</h1>
+    <h1 class="mb1 font-semibold text2">Choose log in</h1>
 
     <div class="grid gap0">
       <button-github href="${githubOauthHref}">

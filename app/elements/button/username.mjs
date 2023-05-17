@@ -10,7 +10,7 @@ export default function UsernameButton({ html, state }) {
         --button-hover-background: mediumseagreen;
       }
     </style>
-    <enhance-link-button href="${href}">
+    <enhance-link-button class="text-center" href="${href}">
       <slot></slot>
     </enhance-link-button>
   `

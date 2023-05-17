@@ -14,6 +14,7 @@ export default function EnhanceLinkButton({ html, state }) {
   <a
     href="${href}"
     class="
+      si-100
       inline-block
       whitespace-no-wrap
       pb-3

@@ -10,7 +10,7 @@ export default function MagicCode({ html, state }) {
         --button-hover-background: slateblue;
       }
     </style>
-    <enhance-link-button href="${href}">
+    <enhance-link-button class="text-center" href="${href}">
       <slot></slot>
     </enhance-link-button>
   `
