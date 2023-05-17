@@ -6,7 +6,7 @@ export default function register({ html, state }) {
 <form-container>
   <main>
 
-      <h1 class="mb1 font-semibold text2">Register a New Account</h1>
+      <h1 class="mb1 font-semibold text2">Register a new account</h1>
       <enhance-form action="/register/username" method="post">
         <div class='grid gap0'>
           <div class="${problems?.form ? 'block' : 'hidden'}">
@@ -14,7 +14,7 @@ export default function register({ html, state }) {
             <ul>${problems?.form}</ul>
           </div>
           <enhance-text-input
-            label="Display Name"
+            label="Display name"
             id="displayName"
             name="displayName"
             type="text"
@@ -47,7 +47,7 @@ export default function register({ html, state }) {
             description='At least 8 characters'
           ></enhance-text-input>
           <enhance-text-input
-            label="Confirm Password"
+            label="Confirm password"
             id="confirmPassword"
             name="confirmPassword"
             type="password"
@@ -64,7 +64,7 @@ export default function register({ html, state }) {
             value="${register?.email || ''}"
           ></enhance-text-input>
           <enhance-text-input
-            label="Phone Number"
+            label="Phone number"
             id="phone"
             name="phone"
             type="tel"

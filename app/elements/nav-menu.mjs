@@ -28,7 +28,7 @@ export default function NavMenu({ state, html }) {
            "
            href="/login"
          >
-           Log In
+           Log in
          </enhance-link>
          <enhance-link-button href="/register">
            Get Started

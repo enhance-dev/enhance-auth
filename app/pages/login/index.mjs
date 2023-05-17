@@ -8,7 +8,7 @@ export default function login({ html, state }) {
 
     <div class="grid gap0">
       <button-github href="${githubOauthHref}">
-        Log In with GitHub
+        Log in with GitHub
       </button-github>
       <button-magic-link href="/login/magic-link">
         Email Magic Link
