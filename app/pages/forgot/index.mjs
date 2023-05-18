@@ -1,8 +1,8 @@
-export default function login({ html, state }) {
+export default function forgot({ html, state }) {
   const problems = state.store.problems || {}
   const forgot = state.store.forgot || {}
   return html`
-<enhance-page-container>
+<page-container>
   <nav-menu></nav-menu>
   <main>
     <h1 class="mb1 font-semibold text3">Reset Password</h1>
@@ -20,5 +20,5 @@ export default function login({ html, state }) {
       <enhance-submit-button style="float: right"><span slot="label">Request Reset</span></enhance-submit-button>
     </enhance-form>
   </main>
-</enhance-page-container>
+</page-container>
 ` }
