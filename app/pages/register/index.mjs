@@ -12,7 +12,7 @@ export default function register({ html, state }) {
           Continue with GitHub
         </button-github>
         <button-username href="/register/username">
-          Continue with Username and Password
+          Continue with username and password
         </button-username>
       </div>
     </form-container>
