@@ -2,7 +2,6 @@ export default function register({ html, state }) {
   const { problems, register } = state.store
 
   return html`
-<focus-nav href="/register" class="block p0"></focus-nav>
 <form-container>
   <main>
 

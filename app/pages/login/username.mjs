@@ -8,7 +8,6 @@ export default function login({ html, state }) {
         --dark: var(--secondary-300);
       }
     </style>
-<focus-nav class="block p0" href="/login"></focus-nav>
 <page-container>
   <main>
     <form-container>
