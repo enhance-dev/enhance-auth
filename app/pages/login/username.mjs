@@ -13,10 +13,10 @@ export default function login({ html, state }) {
   <main>
     <form-container>
       <enhance-fieldset legend="Log in">
-      <div class="${problems.form ? 'block' : 'hidden'}">
-        <p>Found some problems!</p>
-        <ul>${problems.form}</ul>
-      </div>
+        <div class="${problems.form ? 'block' : 'hidden'}">
+          <p>Found some problems!</p>
+          <ul>${problems.form}</ul>
+        </div>
         <enhance-form
           action="/login/username"
           method="post"

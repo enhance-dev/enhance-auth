@@ -45,7 +45,7 @@ export default function NavMenu({ state, html }) {
        align-items-center
       "
     >
-      <enhance-link class="font-bold" href='/'>example.com</enhance-link>
+      <enhance-link class="font-bold" href='/'>enhanceauth.com</enhance-link>
       ${adminLink}
       ${loginLinks}
       ${logoutLinks}
