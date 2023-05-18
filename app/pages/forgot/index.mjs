@@ -11,38 +11,45 @@ export default function forgot({ html, state }) {
           <p>Found some problems!</p>
           <ul>${problems.form}</ul>
         </div>
-        <enhance-form
-          action="/forgot/use-email"
-          method="post"
-        >
-          <enhance-text-input
-            label="Email"
-            id="email"
-            name="email"
-            type="email"
-            error="${problems?.email?.errors}"
-            value="${forgot?.email || ''}"
-          ></enhance-text-input>
-          <enhance-submit-button>
-            <span slot="label">Request Reset</span>
-          </enhance-submit-button>
-        </enhance-form>
-        <enhance-form
-          action="/forgot/use-phone"
-          method="post"
-        >
-          <enhance-text-input
-            label="Phone Number"
-            id="phone"
-            name="phone"
-            type="phone"
-            errors="${problems?.phone?.errors || ''}"
-            value="${forgot?.phone || ''}"
-          ></enhance-text-input>
-          <enhance-submit-button>
-            <span slot="label">Request Reset</span>
-          </enhance-submit-button>
-        </enhance-form>
+        <div class='grid gap0'>
+          <enhance-form
+            action="/forgot/use-email"
+            method="post"
+          >
+            <div class='grid gap0'>
+              <enhance-text-input
+                label="Email"
+                id="email"
+                name="email"
+                type="email"
+                error="${problems?.email?.errors}"
+                value="${forgot?.email || ''}"
+              ></enhance-text-input>
+              <enhance-submit-button>
+                <span slot="label">Request Reset</span>
+              </enhance-submit-button>
+            </div>
+          </enhance-form>
+          <enhance-form
+            action="/forgot/use-phone"
+            method="post"
+          >
+
+            <div class='grid gap0'>
+              <enhance-text-input
+                label="Phone Number"
+                id="phone"
+                name="phone"
+                type="phone"
+                errors="${problems?.phone?.errors || ''}"
+                value="${forgot?.phone || ''}"
+              ></enhance-text-input>
+              <enhance-submit-button>
+                <span slot="label">Request Reset</span>
+              </enhance-submit-button>
+            </div>
+          </enhance-form>
+        </div>
       </enhance-fieldset>
     </form-container>
   </main>
