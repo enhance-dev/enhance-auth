@@ -12,16 +12,16 @@ export default function login({ html, state }) {
           Log in with GitHub
         </button-github>
         <button-magic-link href="/login/magic-link">
-          Email Magic Link
+          Email magic link
         </button-magic-link>
         <button-magic-code href="/login/magic-sms">
-          Text Magic Code
+          Text magic code
         </button-magic-code>
         <button-username href="/login/username">
-          Username & Password
+          Username & password
         </button-username>
 
-        <enhance-link href="/forgot">Forgot Password?</enhance-link>
+        <enhance-link href="/forgot">Forgot password?</enhance-link>
       </div>
 
     </main>

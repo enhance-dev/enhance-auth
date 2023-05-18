@@ -48,7 +48,7 @@ export default function login({ html, state }) {
                 class="whitespace-no-wrap"
                 href="/forgot"
               >
-                Forgot Password?
+                Forgot password?
               </enhance-link>
             </div>
           </div>

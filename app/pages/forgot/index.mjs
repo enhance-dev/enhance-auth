@@ -43,7 +43,7 @@ export default function forgot({ html, state }) {
             >
               <div class='grid gap-1'>
                 <enhance-text-input
-                  label="Phone Number"
+                  label="Phone number"
                   id="phone"
                   name="phone"
                   type="tel"
