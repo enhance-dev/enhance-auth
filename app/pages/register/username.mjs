@@ -18,7 +18,6 @@ export default function register({ html, state }) {
             id="displayName"
             name="displayName"
             type="text"
-            pattern="^[a-zA-Z0-9_\-]*$"
             maxlength=30
             required
             errors="${problems?.displayName?.errors}"
