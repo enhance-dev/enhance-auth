@@ -10,7 +10,7 @@ export default function UsedLink({html,state}){
   <p>Request a new link <enhance-link href='/verify/email'>New Link</enhance-link> </p>
 
   ` : `
-  <p>Login to request a new verification link <enhance-link href='/login'>Login</enhance-link> </p>
+  <p>Log in to request a new verification link <enhance-link href='/login'>Log in</enhance-link> </p>
 
   `}
 </enhance-page-container>
