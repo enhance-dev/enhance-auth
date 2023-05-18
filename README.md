@@ -98,12 +98,12 @@ DOMAIN_NAME=https://example.com
 ```
 
 ### TODOS
-[] Error refresh not working
-[] Redirect after login did not work
-[] Resizing form fields
-[] Output username and password to console if no env variables?
-[] Required fields in form
-[] Single column vs two column forms
-[] Composite components for form
-[] Guided links from landing page to specific flows
-[] Update to Enhance styles 5.0
+- [ ] Error refresh not working
+- [ ] Redirect after login did not work
+- [x] Resizing form fields
+- [ ] Output username and password to console if no env variables?
+- [ ] Required fields in form
+- [ ] Single column vs two column forms
+- [ ] Composite components for form
+- [ ] Guided links from landing page to specific flows
+- [x] Update to Enhance styles 5.0
