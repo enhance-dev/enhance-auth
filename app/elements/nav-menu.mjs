@@ -31,7 +31,7 @@ export default function NavMenu({ state, html }) {
            Log in
          </enhance-link>
          <enhance-link-button href="/register">
-           Get Started
+           Get started
          </enhance-link-button>
        </div>
       `
