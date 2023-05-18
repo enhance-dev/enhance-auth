@@ -4,7 +4,7 @@ export default function login({ html, state }) {
 <enhance-page-container>
   <nav-menu></nav-menu>
   <main>
-    <h1 class="mb1 font-semibold text3">Verify One Time Password</h1>
+    <h1 class="mb1 font-semibold text2">Verify One Time Password</h1>
     <enhance-form action="/login/sms" method="post">
         ${otpSent ? `
       <enhance-text-input label="One Time Password" id="otpCode" name="otpCode" type="password"></enhance-text-input>

@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@begin/validator": "^1.0.1",
-    "@enhance/arc-plugin-enhance": "^5.0.1",
+    "@enhance/arc-plugin-enhance": "^6.0.1",
     "@enhance/form-elements": "github:enhance-dev/form-elements",
     "@sendgrid/mail": "^7.7.0",
     "bcryptjs": "^2.4.3",

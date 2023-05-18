@@ -6,7 +6,7 @@ export default function login({ html, state }) {
   <enhance-page-container>
     <nav-menu></nav-menu>
     <main>
-      <h1 class="mb1 font-semibold text3">Login page</h1>
+      <h1 class="mb1 font-semibold text2">Log in</h1>
       <div class="${problems.form ? 'block' : 'hidden'}">
         <p>Found some problems!</p>
         <ul>${problems.form}</ul>

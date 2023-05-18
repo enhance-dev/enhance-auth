@@ -8,33 +8,33 @@ export default function Html({ html, state }) {
   const account = store.account || {}
   const problems = store.problems || {}
 
-  return html`<enhance-page-container>
+  return html`<page-container>
     <nav-menu></nav-menu>
   <main>
-    <h1 class="mb1 font-semibold text3">Accounts page</h1>
-    ${accounts.map(item => `<article class="mb2">
-<div class="mb0">
-  <p class="pb-2"><strong class="capitalize">Display Name: </strong>${item?.displayName || ''}</p>
-  <p class="pb-2"><strong class="capitalize">email: </strong>${item?.email || ''}</p>
-  <p class="pb-2"><strong class="capitalize">email Verified: </strong>${item?.verified?.email ? 'Yes' : 'No'}</p>
-  <p class="pb-2"><strong class="capitalize">phone: </strong>${item?.phone || ''}</p>
-  <p class="pb-2"><strong class="capitalize">phone Verified: </strong>${item?.verified?.phone ? 'Yes' : 'No'}</p>
-  <p class="pb-2"><strong class="capitalize">scopes: </strong>${item?.scopes?.join(', ') || ''}</p>
-  <p class="pb-2"><strong class="capitalize">key: </strong>${item?.key || ''}</p>
-  <p class="pb-2"><strong class="capitalize">Username Login Allowed: </strong>${item?.authConfig?.loginWith?.username ? 'Yes' : 'No'}</p>
-  <p class="pb-2"><strong class="capitalize">Email Link Login Allowed: </strong>${item?.authConfig?.loginWith?.email ? 'Yes' : 'No'}</p>
-  <p class="pb-2"><strong class="capitalize">Phone Code Login Allowed: </strong>${item?.authConfig?.loginWith?.phone ? 'Yes' : 'No'}</p>
-  <p class="pb-2"><strong class="capitalize">Github Login Allowed: </strong>${item?.authConfig?.loginWith?.github ? 'Yes' : 'No'}</p>
-  <p class="pb-2"><strong class="capitalize">Github Oauth: </strong>${item?.provider?.github?.login || ''}</p>
+    <h1 class="mb1 font-semibold text3">Accounts</h1>
+    ${accounts.map(item => `<article class="mbe2">
+<div class="mbe0">
+  <p class="pbe-2"><strong class="capitalize">Display Name: </strong>${item?.displayName || ''}</p>
+  <p class="pbe-2"><strong class="capitalize">email: </strong>${item?.email || ''}</p>
+  <p class="pbe-2"><strong class="capitalize">email Verified: </strong>${item?.verified?.email ? 'Yes' : 'No'}</p>
+  <p class="pbe-2"><strong class="capitalize">phone: </strong>${item?.phone || ''}</p>
+  <p class="pbe-2"><strong class="capitalize">phone Verified: </strong>${item?.verified?.phone ? 'Yes' : 'No'}</p>
+  <p class="pbe-2"><strong class="capitalize">scopes: </strong>${item?.scopes?.join(', ') || ''}</p>
+  <p class="pbe-2"><strong class="capitalize">key: </strong>${item?.key || ''}</p>
+  <p class="pbe-2"><strong class="capitalize">Username Login Allowed: </strong>${item?.authConfig?.loginWith?.username ? 'Yes' : 'No'}</p>
+  <p class="pbe-2"><strong class="capitalize">Email Link Login Allowed: </strong>${item?.authConfig?.loginWith?.email ? 'Yes' : 'No'}</p>
+  <p class="pbe-2"><strong class="capitalize">Phone Code Login Allowed: </strong>${item?.authConfig?.loginWith?.phone ? 'Yes' : 'No'}</p>
+  <p class="pbe-2"><strong class="capitalize">Github Login Allowed: </strong>${item?.authConfig?.loginWith?.github ? 'Yes' : 'No'}</p>
+  <p class="pbe-2"><strong class="capitalize">Github Oauth: </strong>${item?.provider?.github?.login || ''}</p>
 </div>
-<p class="mb-1">
+<p class="mbe-1">
   <enhance-link href="/accounts/${item.key}">Edit this account</enhance-link>
 </p>
-<form action="/accounts/${item.key}/delete" method="POST" class="mb-1">
+<form action="/accounts/${item.key}/delete" method="POST" class="mbe-1">
   <enhance-submit-button><span slot="label">Delete this account</span></enhance-submit-button>
 </form>
 </article>`).join('\n')}
-<details class="mb0" ${Object.keys(problems).length ? 'open' : ''}>
+<details class="mbe0" ${Object.keys(problems).length ? 'open' : ''}>
     <summary>New account</summary>
     <enhance-form
   action="/accounts"
@@ -78,6 +78,6 @@ export default function Html({ html, state }) {
 </enhance-form>
 </details>
 </main>
-</enhance-page-container>
+</page-container>
   `
 }

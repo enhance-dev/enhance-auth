@@ -6,7 +6,6 @@ export const RegisterUsername= {
   "properties": {
     "displayName": {
       "type": "string",
-      "pattern": "^[a-zA-Z0-9_\-]*$",
       "maxLength": 30
     },
     "username": {

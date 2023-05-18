@@ -11,5 +11,6 @@ export default function Head() {
       ${getStyles.linkTag()}
       <link rel="icon" href="/_public/favicon.svg">
     </head>
+    <body class='font-sans leading3'>
   `
 }
