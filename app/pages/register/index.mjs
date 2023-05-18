@@ -5,18 +5,16 @@ export default function register({ html, state }) {
   <nav-menu></nav-menu>
   <form-container>
     <main>
-      <form-container>
-        <h1 class="mb1 font-semibold text2">Register a new account</h1>
+      <h1 class="mb1 font-semibold text2">Register a new account</h1>
 
-        <div class="grid gap-2">
-          <button-github href="${githubOauthHref}">
-            Continue with GitHub
-          </button-github>
-          <button-username href="/register/username">
-            Continue with username & password
-          </button-username>
-        </div>
-      </form-container>
+      <div class="grid gap-2">
+        <button-github href="${githubOauthHref}">
+          Continue with GitHub
+        </button-github>
+        <button-username href="/register/username">
+          Continue with username & password
+        </button-username>
+      </div>
     </main>
   </form-container>
 </page-container>
