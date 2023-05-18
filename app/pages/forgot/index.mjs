@@ -47,7 +47,7 @@ export default function forgot({ html, state }) {
                   label="Phone Number"
                   id="phone"
                   name="phone"
-                  type="phone"
+                  type="tel"
                   errors="${problems?.phone?.errors || ''}"
                   value="${forgot?.phone || ''}"
                 ></enhance-text-input>

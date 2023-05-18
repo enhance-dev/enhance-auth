@@ -1,28 +1,30 @@
 export default function login({ html, state }) {
   const githubOauthHref = state.store.githubOauthHref || ''
   return html`
-<focus-nav href="/" class="block p0"></focus-nav>
-<form-container>
-  <main>
-    <h1 class="mb1 font-semibold text2">Choose log in</h1>
+<page-container>
+  <nav-menu></nav-menu>
+  <form-container>
+    <main>
+      <h1 class="mb1 font-semibold text2">Choose log in</h1>
 
-    <div class="grid gap0">
-      <button-github href="${githubOauthHref}">
-        Log in with GitHub
-      </button-github>
-      <button-magic-link href="/login/magic-link">
-        Email Magic Link
-      </button-magic-link>
-      <button-magic-code href="/login/magic-sms">
-        Text Magic Code
-      </button-magic-code>
-      <button-username href="/login/username">
-        Username & Password
-      </button-username>
+      <div class="grid gap0">
+        <button-github href="${githubOauthHref}">
+          Log in with GitHub
+        </button-github>
+        <button-magic-link href="/login/magic-link">
+          Email Magic Link
+        </button-magic-link>
+        <button-magic-code href="/login/magic-sms">
+          Text Magic Code
+        </button-magic-code>
+        <button-username href="/login/username">
+          Username & Password
+        </button-username>
 
-      <enhance-link href="/forgot">Forgot Password?</enhance-link>
-    </div>
+        <enhance-link href="/forgot">Forgot Password?</enhance-link>
+      </div>
 
-  </main>
-</form-container>
+    </main>
+  </form-container>
+</page-container>
 ` }
