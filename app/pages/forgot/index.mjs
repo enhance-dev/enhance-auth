@@ -2,8 +2,8 @@ export default function forgot({ html, state }) {
   const problems = state.store.problems || {}
   const forgot = state.store.forgot || {}
   return html`
+<focus-nav class="block p0" href="/login"></focus-nav>
 <page-container>
-  <nav-menu></nav-menu>
   <main>
     <form-container>
       <enhance-fieldset legend="Reset password">
