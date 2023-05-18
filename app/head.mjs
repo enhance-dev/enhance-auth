@@ -10,7 +10,6 @@ export default function Head() {
       <title>My Enhance Project</title>
       ${getStyles.linkTag()}
       <link rel="icon" href="/_public/favicon.svg">
-      <link rel="stylesheet" href="/_public/css/auth-example.css">
     </head>
     <body class='font-sans leading3'>
   `
