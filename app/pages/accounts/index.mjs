@@ -8,10 +8,10 @@ export default function Html({ html, state }) {
   const account = store.account || {}
   const problems = store.problems || {}
 
-  return html`<enhance-page-container>
+  return html`<page-container>
     <nav-menu></nav-menu>
   <main>
-    <h1 class="mb1 font-semibold text3">Accounts page</h1>
+    <h1 class="mb1 font-semibold text3">Accounts</h1>
     ${accounts.map(item => `<article class="mb2">
 <div class="mb0">
   <p class="pb-2"><strong class="capitalize">Display Name: </strong>${item?.displayName || ''}</p>
@@ -78,6 +78,6 @@ export default function Html({ html, state }) {
 </enhance-form>
 </details>
 </main>
-</enhance-page-container>
+</page-container>
   `
 }
