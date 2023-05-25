@@ -39,6 +39,7 @@ export async function post(req) {
     register.authConfig = { loginWith: {username:true, email:true, phone:true} }
     register.scopes = ['member']
     // eslint-disable-next-line no-unused-vars
+    register.ttl = Date.now() + 24*60*60*1000
     const { password: removePassword, ...newAccount } = await upsertAccount(register)
 
     return {
