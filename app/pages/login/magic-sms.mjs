@@ -4,29 +4,33 @@ export default function login({ html, state }) {
   const problems = state.store.problems || {}
   const login = state.store.login || {}
   return html`
-    <enhance-page-container>
-      <nav-menu></nav-menu>
+    <page-container>
       <main>
-        <h1 class="mb1 font-semibold text3">Login page</h1>
-        <div class="${problems.form ? 'block' : 'hidden'}">
-          <p>Found some problems!</p>
-          <ul>${problems.form}</ul>
-        </div>
-          ${!smsCodeLogin ? `
-          <enhance-form action="/login/magic-sms" method="post">
-            <enhance-text-input label="Phone Number" id="phone" name="phone" type="phone" errors="${problems?.phone?.errors || ''}" value="${login?.phone || ''}"></enhance-text-input>
-            <enhance-submit-button style="float: right"><span slot="label">Login</span></enhance-submit-button>
-          </enhance-form>
-          ` : ''}
-          ${smsCodeLogin ? `
-          <enhance-form action="/login/magic-sms" method="post">
-            <enhance-text-input label="One Time Code" id="smsCode" name="smsCode" type="password"></enhance-text-input>
-            <enhance-submit-button style="float: right"><span slot="label">Check One Time Code</span></enhance-submit-button>
-          </enhance-form>
-          <enhance-form action="/login/magic-sms?retry" method="post">
-            <enhance-submit-button style="float: right"><span slot="label">Send a new code</span></enhance-submit-button>
-          </enhance-form>
-          ` : ''}
+        <form-container>
+          <enhance-fieldset legend="Log in">
+            <div class="${problems.form ? 'block' : 'hidden'}">
+              <p>Found some problems!</p>
+              <ul>${problems.form}</ul>
+            </div>
+            ${!smsCodeLogin ? `
+            <enhance-form action="/login/magic-sms" method="post">
+              <enhance-text-input label="Phone number" id="phone" name="phone" type="phone" errors="${problems?.phone?.errors || ''}" value="${login?.phone || ''}"></enhance-text-input>
+              <div class="text-end">
+                <enhance-submit-button><span slot="label">Send magic code</span></enhance-submit-button>
+              </div>
+            </enhance-form>
+            ` : ''}
+            ${smsCodeLogin ? `
+            <enhance-form action="/login/magic-sms" method="post">
+              <enhance-text-input label="Magic code" id="smsCode" name="smsCode" type="password"></enhance-text-input>
+              <div class="flex align-items-center justify-content-between">
+                <enhance-link href="/login/magic-sms?retry">Send new code</enhance-link>
+                <enhance-submit-button><span slot="label">Log in</span></enhance-submit-button>
+              </div>
+            </enhance-form>
+            ` : ''}
+          </enhance-fieldset>
+        </form-container>
       </main>
-    </enhance-page-container>
+    </page-container>
     ` }
