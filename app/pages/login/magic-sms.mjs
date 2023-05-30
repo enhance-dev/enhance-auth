@@ -14,7 +14,7 @@ export default function login({ html, state }) {
             </div>
             ${!smsCodeLogin ? `
             <enhance-form action="/login/magic-sms" method="post">
-              <enhance-text-input label="Phone number" id="phone" name="phone" type="phone" errors="${problems?.phone?.errors || ''}" value="${login?.phone || ''}"></enhance-text-input>
+              <enhance-text-input label="Phone number" id="phone" name="phone" type="phone" description="Format: 123-456-7890" errors="${problems?.phone?.errors || ''}" value="${login?.phone || ''}"></enhance-text-input>
               <div class="text-end">
                 <enhance-submit-button><span slot="label">Send magic code</span></enhance-submit-button>
               </div>
