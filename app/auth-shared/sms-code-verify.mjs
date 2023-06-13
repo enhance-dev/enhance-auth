@@ -7,7 +7,7 @@ const requiredEnvs = (process.env.TWILIO_API_ACCOUNT_SID && process.env.TWILIO_A
 export async function sendCode({phone,friendlyName}){
   let service
   if (requiredEnvs){
-    const toPhone = isLocal ? process.env.SMS_TEST_PHONE : '+1'+phone.replace('-','')
+    const toPhone = isLocal && process.env.SMS_TEST_PHONE ? process.env.SMS_TEST_PHONE : '+1'+phone.replace('-','')
     const client = twilio(accountSid, authToken)
     service = await client.verify.v2.services.create({
       friendlyName,
@@ -17,7 +17,7 @@ export async function sendCode({phone,friendlyName}){
       channel: 'sms',
     }); 
 
-    if (!process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
+    if (isLocal && !process.env.SMS_TEST_PHONE) console.log('Warning: SMS messages will be sent to phone numbers unless SMS_TEST_PHONE is set');
   } else {
     console.log('Missing required environment variables')
     if (isLocal){
